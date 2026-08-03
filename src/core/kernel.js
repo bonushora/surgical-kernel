@@ -4,6 +4,9 @@ from "../gateway/requestGateway.js";
 import { PolicyEngine }
 from "../policies/policyEngine.js";
 
+import { ContextBuilder }
+from "../context/contextBuilder.js";
+
 import { ProviderFactory }
 from "../providers/providerFactory.js";
 
@@ -22,75 +25,61 @@ export class SurgicalKernel {
 
 constructor(){
 
-
-this.gateway =
-new RequestGateway();
-
-
-this.policy =
-new PolicyEngine();
+    this.gateway =
+    new RequestGateway();
 
 
-this.provider =
-ProviderFactory.create("mock");
+    this.policy =
+    new PolicyEngine();
 
 
-this.validator =
-new ResponseValidator();
+    this.context =
+    new ContextBuilder();
 
 
-this.audit =
-new AuditEngine();
+    this.provider =
+    ProviderFactory.create("mock");
 
 
-this.snapshot =
-new SnapshotEngine();
+    this.validator =
+    new ResponseValidator();
 
+
+    this.audit =
+    new AuditEngine();
+
+
+    this.snapshot =
+    new SnapshotEngine();
 
 }
 
 
 
-async execute(input){
+async execute(request){
 
 
-const request =
-this.gateway.process(input);
+const normalized =
+this.gateway.process(request);
 
 
 
 const policyDecision =
-this.policy.validate(request);
+this.policy.validate(normalized);
 
 
 
-if(
-policyDecision.decision !== "ALLOW"
-){
+if(policyDecision.decision==="DENY"){
+
 
 const audit =
 this.audit.record({
 
-request,
+request:normalized,
 
-policy:
-policyDecision,
+policy:policyDecision,
 
-status:
-"BLOCKED"
-
-});
-
-
-const snapshot =
-this.snapshot.create({
-
-request,
-
-policy:
-policyDecision,
-
-audit
+status:"BLOCKED"
 
 });
 
@@ -99,12 +88,20 @@ return {
 
 blocked:true,
 
-policy:
-policyDecision,
+policy:policyDecision,
 
 audit,
 
-snapshot
+snapshot:
+this.snapshot.create({
+
+request:normalized,
+
+policy:policyDecision,
+
+audit
+
+})
 
 };
 
@@ -113,8 +110,21 @@ snapshot
 
 
 
+const context =
+this.context.build(
+request.context || {}
+);
+
+
+
 const response =
-await this.provider.execute(request);
+await this.provider.execute({
+
+...normalized,
+
+context
+
+});
 
 
 
@@ -125,10 +135,11 @@ this.validator.validate(response);
 const audit =
 this.audit.record({
 
-request,
+request:normalized,
 
-policy:
-policyDecision,
+policy:policyDecision,
+
+context,
 
 response
 
@@ -136,32 +147,33 @@ response
 
 
 
-const snapshot =
-this.snapshot.create({
-
-request,
-
-response,
-
-policy:
-policyDecision,
-
-audit
-
-});
-
-
-
 return {
 
+
 response,
 
-policy:
-policyDecision,
+policy:policyDecision,
+
+context,
 
 audit,
 
-snapshot
+
+snapshot:
+this.snapshot.create({
+
+request:normalized,
+
+policy:policyDecision,
+
+context,
+
+response,
+
+audit
+
+})
+
 
 };
 
