@@ -5,13 +5,10 @@ export class DashboardController {
         dashboardService
     ){
 
-
         this.dashboard =
         dashboardService;
 
-
     }
-
 
 
 
@@ -36,14 +33,25 @@ export class DashboardController {
 
 
 
+    executions(){
 
-    executionSnapshot(id){
+
+        return this.dashboard.executionsList();
+
+
+    }
+
+
+
+    snapshot(id){
 
 
         return {
 
+
             snapshot:
             this.dashboard.snapshot(id)
+
 
         };
 
