@@ -7,6 +7,9 @@ from "../policies/policyEngine.js";
 import { ContextBuilder }
 from "../context/contextBuilder.js";
 
+import { PromptComposer }
+from "../prompt/promptComposer.js";
+
 import { ProviderFactory }
 from "../providers/providerFactory.js";
 
@@ -23,40 +26,49 @@ from "../snapshot/snapshotEngine.js";
 export class SurgicalKernel {
 
 
+
 constructor(){
 
-    this.gateway =
-    new RequestGateway();
+
+this.gateway =
+new RequestGateway();
 
 
-    this.policy =
-    new PolicyEngine();
+this.policy =
+new PolicyEngine();
 
 
-    this.context =
-    new ContextBuilder();
+this.context =
+new ContextBuilder();
 
 
-    this.provider =
-    ProviderFactory.create("mock");
+this.prompt =
+new PromptComposer();
 
 
-    this.validator =
-    new ResponseValidator();
+this.provider =
+ProviderFactory.create("mock");
 
 
-    this.audit =
-    new AuditEngine();
+this.validator =
+new ResponseValidator();
 
 
-    this.snapshot =
-    new SnapshotEngine();
+this.audit =
+new AuditEngine();
+
+
+this.snapshot =
+new SnapshotEngine();
+
 
 }
 
 
 
+
 async execute(request){
+
 
 
 const normalized =
@@ -86,11 +98,15 @@ status:"BLOCKED"
 
 return {
 
+
 blocked:true,
+
 
 policy:policyDecision,
 
+
 audit,
+
 
 snapshot:
 this.snapshot.create({
@@ -102,6 +118,7 @@ policy:policyDecision,
 audit
 
 })
+
 
 };
 
@@ -117,12 +134,21 @@ request.context || {}
 
 
 
+const composedPrompt =
+this.prompt.compose(
+normalized,
+context
+);
+
+
+
 const response =
 await this.provider.execute({
 
 ...normalized,
 
-context
+prompt:
+composedPrompt
 
 });
 
@@ -141,6 +167,8 @@ policy:policyDecision,
 
 context,
 
+prompt:composedPrompt,
+
 response
 
 });
@@ -152,9 +180,15 @@ return {
 
 response,
 
+
 policy:policyDecision,
 
+
 context,
+
+
+prompt:composedPrompt,
+
 
 audit,
 
@@ -167,6 +201,8 @@ request:normalized,
 policy:policyDecision,
 
 context,
+
+prompt:composedPrompt,
 
 response,
 
