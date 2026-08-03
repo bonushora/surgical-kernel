@@ -16,5 +16,14 @@
     "deterministic",
     "llm"
   ],
-  "license": "TBD"
+  "license": "TBD",
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typedoc": "^0.28.20",
+    "typescript": "5.9",
+    "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
 }
