@@ -1,35 +1,58 @@
+export interface RetryPolicyConfig {
+
+    retries?: number;
+
+    delay?: number;
+
+}
+
+
+
+export type RetryOperation = () => Promise<unknown>;
+
+
+
 export class RetryPolicy {
 
 
-    constructor({
+    private retries:number;
 
-        retries = 3,
+    private delay:number;
 
-        delay = 500
 
-    } = {}){
 
+    constructor(
+
+        config:RetryPolicyConfig = {}
+
+    ){
 
         this.retries =
-            retries;
+            config.retries ?? 3;
 
 
         this.delay =
-            delay;
-
+            config.delay ?? 500;
 
     }
 
 
 
-    async execute(operation){
+    async execute(
+
+        operation:RetryOperation
+
+    ):Promise<unknown>{
 
 
         let attempt = 0;
 
 
+
         while(
+
             attempt <= this.retries
+
         ){
 
 
@@ -45,13 +68,17 @@ export class RetryPolicy {
                 attempt++;
 
 
+
                 if(
+
                     attempt > this.retries
+
                 ){
 
                     throw error;
 
                 }
+
 
 
                 await this.wait();
@@ -63,11 +90,16 @@ export class RetryPolicy {
         }
 
 
+        throw new Error(
+            "Retry execution failed"
+        );
+
+
     }
 
 
 
-    async wait(){
+    private async wait():Promise<void>{
 
 
         return new Promise(
@@ -75,8 +107,11 @@ export class RetryPolicy {
             resolve =>
 
                 setTimeout(
+
                     resolve,
+
                     this.delay
+
                 )
 
         );

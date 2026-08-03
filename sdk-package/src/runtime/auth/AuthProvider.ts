@@ -1,22 +1,44 @@
+export type AuthStrategy = (
+
+    request: unknown
+
+) => Promise<unknown> | unknown;
+
+
+
+export interface AuthProviderConfig {
+
+    strategy?: AuthStrategy;
+
+}
+
+
+
 export class AuthProvider {
 
 
-    constructor({
+    private strategy?: AuthStrategy;
 
-        strategy
 
-    } = {}){
 
+    constructor(
+
+        config: AuthProviderConfig = {}
+
+    ){
 
         this.strategy =
-            strategy;
-
+            config.strategy;
 
     }
 
 
 
-    async authorize(request){
+    async authorize(
+
+        request: unknown
+
+    ): Promise<unknown>{
 
 
         if(

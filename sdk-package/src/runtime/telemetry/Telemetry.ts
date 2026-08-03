@@ -1,15 +1,48 @@
+export type TelemetryCollector = (
+
+    event: TelemetryEvent
+
+) => Promise<void> | void;
+
+
+
+export interface TelemetryConfig {
+
+    collector?: TelemetryCollector;
+
+}
+
+
+
+export interface TelemetryEvent {
+
+    timestamp:string;
+
+    request:unknown;
+
+    response:unknown;
+
+}
+
+
+
 export class Telemetry {
 
 
-    constructor({
+    private collector?: TelemetryCollector;
 
-        collector = null
+    private events:TelemetryEvent[];
 
-    } = {}){
 
+
+    constructor(
+
+        config:TelemetryConfig = {}
+
+    ){
 
         this.collector =
-            collector;
+            config.collector;
 
 
         this.events = [];
@@ -20,14 +53,14 @@ export class Telemetry {
 
     async capture(
 
-        request,
+        request:unknown,
 
-        response
+        response:unknown
 
-    ){
+    ):Promise<TelemetryEvent>{
 
 
-        const event = {
+        const event:TelemetryEvent = {
 
 
             timestamp:
@@ -69,7 +102,7 @@ export class Telemetry {
 
 
 
-    getEvents(){
+    getEvents():TelemetryEvent[]{
 
 
         return this.events;

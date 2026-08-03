@@ -4,6 +4,48 @@ export {
 from "./client/SurgicalKernelClient";
 
 
+export {
+    KernelRuntime
+}
+from "./runtime/KernelRuntime";
+
+
+export {
+    HttpTransport
+}
+from "./runtime/http/HttpTransport";
+
+
+export {
+    MiddlewarePipeline
+}
+from "./runtime/middleware/MiddlewarePipeline";
+
+
+export {
+    AuthProvider
+}
+from "./runtime/auth/AuthProvider";
+
+
+export {
+    RetryPolicy
+}
+from "./runtime/retry/RetryPolicy";
+
+
+export {
+    Telemetry
+}
+from "./runtime/telemetry/Telemetry";
+
+
+export {
+    PluginManager
+}
+from "./runtime/plugins/PluginManager";
+
+
 export type {
     ExecutionRequest
 }
@@ -14,3 +56,9 @@ export type {
     ExecutionResponse
 }
 from "./contracts/ExecutionResponse";
+
+
+export type {
+    KernelRuntimeConfig
+}
+from "./runtime/KernelRuntime";

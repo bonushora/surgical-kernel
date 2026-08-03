@@ -1,4 +1,25 @@
+export interface Middleware {
+
+
+    before?(
+        value: unknown
+    ): Promise<unknown> | unknown;
+
+
+    after?(
+        value: unknown
+    ): Promise<unknown> | unknown;
+
+
+}
+
+
+
 export class MiddlewarePipeline {
+
+
+    private middlewares: Middleware[];
+
 
 
     constructor(){
@@ -9,11 +30,14 @@ export class MiddlewarePipeline {
 
 
 
-    use(middleware){
+    use(
+        middleware: Middleware
+    ){
 
         this.middlewares.push(
             middleware
         );
+
 
         return this;
 
@@ -21,17 +45,21 @@ export class MiddlewarePipeline {
 
 
 
-    async before(request){
+    async before(
+        request: unknown
+    ): Promise<unknown>{
 
 
         let result =
             request;
 
 
+
         for(
             const middleware
             of this.middlewares
         ){
+
 
             if(
                 middleware.before
@@ -53,11 +81,14 @@ export class MiddlewarePipeline {
 
 
 
-    async after(response){
+    async after(
+        response: unknown
+    ): Promise<unknown>{
 
 
         let result =
             response;
+
 
 
         for(
@@ -66,6 +97,7 @@ export class MiddlewarePipeline {
                 ...this.middlewares
             ].reverse()
         ){
+
 
             if(
                 middleware.after

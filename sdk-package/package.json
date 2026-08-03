@@ -1,14 +1,15 @@
 {
   "name": "@surgical-kernel/sdk",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Agnostic SDK for Surgical Kernel AI Governance",
   "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.cts",
   "exports": {
     ".": {
+      "require": "./dist/index.cjs",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.cts"
     }
   },
   "scripts": {
@@ -17,7 +18,6 @@
     "docs": "typedoc src"
   },
   "dependencies": {
-    "@surgical-kernel/sdk": "file:surgical-kernel-sdk-0.1.0.tgz",
     "zod": "^4.0.0"
   },
   "devDependencies": {

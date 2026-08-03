@@ -1,4 +1,22 @@
+export interface Plugin {
+
+
+    initialize?(
+
+        context: unknown
+
+    ): Promise<void> | void;
+
+
+}
+
+
+
 export class PluginManager {
+
+
+    private plugins:Plugin[];
+
 
 
     constructor(){
@@ -9,7 +27,11 @@ export class PluginManager {
 
 
 
-    register(plugin){
+    register(
+
+        plugin:Plugin
+
+    ):this{
 
 
         this.plugins.push(
@@ -23,17 +45,26 @@ export class PluginManager {
 
 
 
-    async initialize(context){
+    async initialize(
+
+        context:unknown
+
+    ):Promise<void>{
 
 
         for(
+
             const plugin
+
             of this.plugins
+
         ){
 
 
             if(
+
                 plugin.initialize
+
             ){
 
                 await plugin.initialize(
@@ -50,14 +81,13 @@ export class PluginManager {
 
 
 
-    getPlugins(){
+    getPlugins():Plugin[]{
 
 
         return this.plugins;
 
 
     }
-
 
 
 }

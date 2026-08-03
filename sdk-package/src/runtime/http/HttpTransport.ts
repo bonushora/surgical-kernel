@@ -1,22 +1,38 @@
+export interface HttpTransportConfig {
+
+    endpoint: string;
+
+    headers?: Record<string,string>;
+
+}
+
+
 export class HttpTransport {
 
 
-    constructor({
+    private endpoint:string;
 
-        endpoint,
+    private headers:Record<string,string>;
 
-        headers = {}
 
-    }){
 
-        this.endpoint = endpoint;
-        this.headers = headers;
+    constructor(
+        config: HttpTransportConfig
+    ){
+
+        this.endpoint =
+            config.endpoint;
+
+        this.headers =
+            config.headers ?? {};
 
     }
 
 
 
-    async send(payload){
+    async send(
+        payload: unknown
+    ): Promise<unknown>{
 
 
         const response =
