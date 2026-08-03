@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 
 export class AuditEngine {
 
@@ -25,4 +27,3 @@ new Date().toISOString()
 
 
 }
-
