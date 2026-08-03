@@ -2,7 +2,6 @@ import { kernel }
 from "../src/index.js";
 
 
-
 console.log(
 await kernel.execute({
 
@@ -16,16 +15,14 @@ prompt:"Gerar relatório SECIS"
 );
 
 
-
 console.log(
 await kernel.execute({
 
 user:"teste",
 
-action:"execute_sql",
+action:"delete_database",
 
 prompt:"Excluir registros"
 
 })
 );
-
