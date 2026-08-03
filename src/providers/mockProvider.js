@@ -1,25 +1,28 @@
 
-export class MockProvider {
+import { Provider } from "./interfaces/provider.js";
 
 
-async execute(request){
+export class MockProvider extends Provider {
 
 
-return {
+    async execute(request){
 
-model:"mock-provider",
 
-content:
-`Resposta simulada para: ${request.prompt}`,
+        return {
 
-timestamp:
-new Date().toISOString()
+            model:
+            "mock-provider",
 
-};
+            content:
+            `Resposta simulada para: ${request.prompt}`,
+
+            timestamp:
+            new Date().toISOString()
+
+        };
+
+
+    }
 
 
 }
-
-
-}
-

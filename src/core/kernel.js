@@ -1,11 +1,12 @@
+
 import { RequestGateway } 
 from "../gateway/requestGateway.js";
 
 import { PolicyEngine } 
 from "../policies/policyEngine.js";
 
-import { MockProvider } 
-from "../providers/mockProvider.js";
+import { ProviderFactory } 
+from "../providers/providerFactory.js";
 
 import { ResponseValidator } 
 from "../validators/responseValidator.js";
@@ -20,80 +21,99 @@ from "../snapshot/snapshotEngine.js";
 export class SurgicalKernel {
 
 
-constructor(){
-
-this.gateway = new RequestGateway();
-
-this.policy = new PolicyEngine();
-
-this.provider = new MockProvider();
-
-this.validator = new ResponseValidator();
-
-this.audit = new AuditEngine();
-
-this.snapshot = new SnapshotEngine();
-
-}
+    constructor(){
 
 
-
-async execute(request){
-
-
-const normalized =
-this.gateway.process(request);
+        this.gateway =
+        new RequestGateway();
 
 
-this.policy.validate(normalized);
+        this.policy =
+        new PolicyEngine();
 
 
+        this.provider =
+        ProviderFactory.create("mock");
 
-const response =
-await this.provider.execute(normalized);
+
+        this.validator =
+        new ResponseValidator();
+
+
+        this.audit =
+        new AuditEngine();
+
+
+        this.snapshot =
+        new SnapshotEngine();
+
+
+    }
 
 
 
-this.validator.validate(response);
+    async execute(request){
+
+
+        const normalized =
+        this.gateway.process(request);
+
+
+        this.policy.validate(normalized);
 
 
 
-const audit =
-this.audit.record({
-
-request: normalized,
-
-response
-
-});
+        const response =
+        await this.provider.execute(
+            normalized
+        );
 
 
 
-const snapshot =
-this.snapshot.create({
-
-request: normalized,
-
-response,
-
-audit
-
-});
+        this.validator.validate(
+            response
+        );
 
 
 
-return {
+        const audit =
+        this.audit.record({
 
-response,
+            request:
+            normalized,
 
-audit,
+            response
 
-snapshot
-
-};
+        });
 
 
-}
+
+        const snapshot =
+        this.snapshot.create({
+
+            request:
+            normalized,
+
+            response,
+
+            audit
+
+        });
+
+
+
+        return {
+
+            response,
+
+            audit,
+
+            snapshot
+
+        };
+
+
+    }
 
 
 }
