@@ -6,7 +6,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "node tests/kernel.test.js",
-    "test:governance": "node tests/governance/runTests.js"
+    "test:governance": "node tests/governance/runTests.js",
+    "test:replay": "node tests/replay/runReplay.js"
   },
   "keywords": [
     "ai",
