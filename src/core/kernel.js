@@ -1,119 +1,172 @@
-
-import { RequestGateway } 
+import { RequestGateway }
 from "../gateway/requestGateway.js";
 
-import { PolicyEngine } 
+import { PolicyEngine }
 from "../policies/policyEngine.js";
 
-import { ProviderFactory } 
+import { ProviderFactory }
 from "../providers/providerFactory.js";
 
-import { ResponseValidator } 
+import { ResponseValidator }
 from "../validators/responseValidator.js";
 
-import { AuditEngine } 
+import { AuditEngine }
 from "../audit/auditEngine.js";
 
-import { SnapshotEngine } 
+import { SnapshotEngine }
 from "../snapshot/snapshotEngine.js";
 
 
 export class SurgicalKernel {
 
 
-    constructor(){
+constructor(){
 
 
-        this.gateway =
-        new RequestGateway();
+this.gateway =
+new RequestGateway();
 
 
-        this.policy =
-        new PolicyEngine();
+this.policy =
+new PolicyEngine();
 
 
-        this.provider =
-        ProviderFactory.create("mock");
+this.provider =
+ProviderFactory.create("mock");
 
 
-        this.validator =
-        new ResponseValidator();
+this.validator =
+new ResponseValidator();
 
 
-        this.audit =
-        new AuditEngine();
+this.audit =
+new AuditEngine();
 
 
-        this.snapshot =
-        new SnapshotEngine();
+this.snapshot =
+new SnapshotEngine();
 
 
-    }
-
-
-
-    async execute(request){
-
-
-        const normalized =
-        this.gateway.process(request);
-
-
-        this.policy.validate(normalized);
+}
 
 
 
-        const response =
-        await this.provider.execute(
-            normalized
-        );
+async execute(input){
+
+
+const request =
+this.gateway.process(input);
 
 
 
-        this.validator.validate(
-            response
-        );
+const policyDecision =
+this.policy.validate(request);
 
 
 
-        const audit =
-        this.audit.record({
+if(
+policyDecision.decision !== "ALLOW"
+){
 
-            request:
-            normalized,
+const audit =
+this.audit.record({
 
-            response
+request,
 
-        });
+policy:
+policyDecision,
 
+status:
+"BLOCKED"
 
-
-        const snapshot =
-        this.snapshot.create({
-
-            request:
-            normalized,
-
-            response,
-
-            audit
-
-        });
+});
 
 
+const snapshot =
+this.snapshot.create({
 
-        return {
+request,
 
-            response,
+policy:
+policyDecision,
 
-            audit,
+audit
 
-            snapshot
-
-        };
+});
 
 
-    }
+return {
+
+blocked:true,
+
+policy:
+policyDecision,
+
+audit,
+
+snapshot
+
+};
+
+
+}
+
+
+
+const response =
+await this.provider.execute(request);
+
+
+
+this.validator.validate(response);
+
+
+
+const audit =
+this.audit.record({
+
+request,
+
+policy:
+policyDecision,
+
+response
+
+});
+
+
+
+const snapshot =
+this.snapshot.create({
+
+request,
+
+response,
+
+policy:
+policyDecision,
+
+audit
+
+});
+
+
+
+return {
+
+response,
+
+policy:
+policyDecision,
+
+audit,
+
+snapshot
+
+};
+
+
+}
 
 
 }

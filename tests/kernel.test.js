@@ -1,17 +1,31 @@
+import { kernel }
+from "../src/index.js";
 
-import { kernel } from "../src/index.js";
 
 
-const response =
+console.log(
 await kernel.execute({
 
 user:"teste",
 
-prompt:
-"Explique BônusHora Social"
+action:"generate_report",
 
-});
+prompt:"Gerar relatório SECIS"
+
+})
+);
 
 
-console.log(response);
+
+console.log(
+await kernel.execute({
+
+user:"teste",
+
+action:"execute_sql",
+
+prompt:"Excluir registros"
+
+})
+);
 

@@ -1,4 +1,3 @@
-
 export class RequestGateway {
 
 
@@ -7,13 +6,20 @@ process(request){
 
 return {
 
-user: request.user,
+user:
+request.user,
 
-prompt: request.prompt,
+action:
+request.action,
 
-context: request.context || {},
+prompt:
+request.prompt,
 
-timestamp: new Date().toISOString()
+context:
+request.context || {},
+
+timestamp:
+new Date().toISOString()
 
 };
 
@@ -22,4 +28,3 @@ timestamp: new Date().toISOString()
 
 
 }
-
