@@ -3,8 +3,14 @@ import {
 } from "./ExecutionEvent.js";
 
 
-const events =
-    new Map<string, ExecutionEvent[]>();
+import {
+    MemoryEventRepository
+} from "./MemoryEventRepository.js";
+
+
+
+const repository =
+    new MemoryEventRepository();
 
 
 
@@ -12,24 +18,10 @@ export function appendEvent(
     event: ExecutionEvent
 ) {
 
-    const current =
-        events.get(event.executionId)
-        ??
-        [];
 
-
-    current.push(
+    return repository.append(
         event
     );
-
-
-    events.set(
-        event.executionId,
-        current
-    );
-
-
-    return event;
 
 }
 
@@ -40,10 +32,8 @@ export function getEvents(
 ):ExecutionEvent[] {
 
 
-    return (
-        events.get(executionId)
-        ??
-        []
+    return repository.getEvents(
+        executionId
     );
 
 }
