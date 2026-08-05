@@ -1,13 +1,20 @@
 import { Router } from "express";
 
 import {
-    createExecution,
     getExecution,
     getAllExecutions
 } from "../store/executionStore.js";
 
+import {
+    ExecutionService
+} from "../runtime/service/ExecutionService.js";
+
 
 const router = Router();
+
+
+const executionService =
+    new ExecutionService();
 
 
 
@@ -16,27 +23,23 @@ router.post(
     async (req,res)=>{
 
 
-        const execution = createExecution({
+        const execution =
+            executionService.create({
 
-            executionId:
-                crypto.randomUUID(),
+                executionId:
+                    crypto.randomUUID(),
 
-            projectId:
-                req.body.projectId ?? "unknown",
+                projectId:
+                    req.body.projectId ?? "unknown",
 
-            mode:
-                req.body.mode ?? "free",
+                mode:
+                    req.body.mode ?? "free",
 
-            request:
-                req.body.request ?? "",
+                request:
+                    req.body.request ?? ""
 
-            state:
-                "initialized",
+            });
 
-            createdAt:
-                new Date().toISOString()
-
-        });
 
 
         res.json({
@@ -51,7 +54,7 @@ router.post(
                 execution.mode,
 
             state:
-                execution.state
+                execution.status
 
         });
 
@@ -74,12 +77,12 @@ router.get(
         if(!execution){
 
             return res.status(404)
-            .json({
+                .json({
 
-                error:
-                "execution not found"
+                    error:
+                    "execution not found"
 
-            });
+                });
 
         }
 
@@ -121,12 +124,12 @@ router.get(
         if(!execution){
 
             return res.status(404)
-            .json({
+                .json({
 
-                error:
-                "snapshot not found"
+                    error:
+                    "snapshot not found"
 
-            });
+                });
 
         }
 
