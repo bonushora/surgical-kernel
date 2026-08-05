@@ -10,6 +10,11 @@ import {
 } from "../runtime/service/ExecutionService.js";
 
 
+import {
+    getEvents
+} from "../runtime/events/EventStore.js";
+
+
 const router = Router();
 
 
@@ -290,6 +295,32 @@ router.get(
             }
 
         });
+
+    }
+);
+
+
+
+
+router.get(
+    "/execution/:id/events",
+    async(req,res)=>{
+
+
+        const events =
+            getEvents(
+                req.params.id
+            );
+
+
+        res.json(
+            {
+                executionId:
+                    req.params.id,
+
+                events
+            }
+        );
 
     }
 );
