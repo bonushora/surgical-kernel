@@ -24,6 +24,16 @@ import {
 } from "../state/ExecutionState.js";
 
 
+import {
+    appendEvent
+} from "../events/EventStore.js";
+
+
+import {
+    ExecutionEvent
+} from "../events/ExecutionEvent.js";
+
+
 
 export interface CreateExecutionRequest {
 
@@ -73,6 +83,44 @@ export class ExecutionService {
             );
 
 
+        const event: ExecutionEvent = {
+
+            eventId:
+                crypto.randomUUID(),
+
+            executionId:
+                execution.executionId,
+
+            type:
+                "execution.created",
+
+            timestamp:
+                new Date().toISOString(),
+
+            payload: {
+
+                projectId:
+                    execution.projectId,
+
+                mode:
+                    execution.mode,
+
+                request:
+                    execution.request,
+
+                state:
+                    execution.status
+
+            }
+
+        };
+
+
+        appendEvent(
+            event
+        );
+
+
         return {
 
             ...execution,
@@ -110,6 +158,44 @@ export class ExecutionService {
         );
 
 
+        const event: ExecutionEvent = {
+
+            eventId:
+                crypto.randomUUID(),
+
+            executionId:
+                execution.executionId,
+
+            type:
+                "execution.started",
+
+            timestamp:
+                new Date().toISOString(),
+
+            payload: {
+
+                projectId:
+                    execution.projectId,
+
+                mode:
+                    execution.mode,
+
+                request:
+                    execution.request,
+
+                state:
+                    updated.status
+
+            }
+
+        };
+
+
+        appendEvent(
+            event
+        );
+
+
         return updated;
 
     }
@@ -137,6 +223,44 @@ export class ExecutionService {
                 updatedAt:
                     updated.updatedAt
             }
+        );
+
+
+        const event: ExecutionEvent = {
+
+            eventId:
+                crypto.randomUUID(),
+
+            executionId:
+                execution.executionId,
+
+            type:
+                "execution.completed",
+
+            timestamp:
+                new Date().toISOString(),
+
+            payload: {
+
+                projectId:
+                    execution.projectId,
+
+                mode:
+                    execution.mode,
+
+                request:
+                    execution.request,
+
+                state:
+                    updated.status
+
+            }
+
+        };
+
+
+        appendEvent(
+            event
         );
 
 
