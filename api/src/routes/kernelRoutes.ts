@@ -15,6 +15,11 @@ import {
 } from "../runtime/events/EventStore.js";
 
 
+import {
+    replayExecution
+} from "../runtime/replay/EventReplay.js";
+
+
 const router = Router();
 
 
@@ -321,6 +326,42 @@ router.get(
                 events
             }
         );
+
+    }
+);
+
+
+
+router.get(
+    "/execution/:id/replay",
+    async(req,res)=>{
+
+
+        const replay =
+            replayExecution(
+                req.params.id
+            );
+
+
+        if(!replay){
+
+            return res.status(404)
+                .json({
+                    error:
+                    "execution replay not found"
+                });
+
+        }
+
+
+        res.json({
+
+            executionId:
+                req.params.id,
+
+            replay
+
+        });
 
     }
 );
