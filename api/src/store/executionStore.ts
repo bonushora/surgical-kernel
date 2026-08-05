@@ -1,14 +1,25 @@
 export interface Execution {
+
     executionId: string;
+
     projectId: string;
+
     mode: string;
+
     request: string;
+
     state: string;
+
     createdAt: string;
+
+    updatedAt?: string;
+
 }
 
 
-const executions = new Map<string, Execution>();
+const executions =
+    new Map<string, Execution>();
+
 
 
 export function createExecution(
@@ -21,7 +32,51 @@ export function createExecution(
     );
 
     return execution;
+
 }
+
+
+
+export function updateExecution(
+    executionId:string,
+    update:Partial<Execution>
+){
+
+    const current =
+        executions.get(
+            executionId
+        );
+
+
+    if(!current){
+
+        return undefined;
+
+    }
+
+
+    const updated = {
+
+        ...current,
+
+        ...update,
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    executions.set(
+        executionId,
+        updated
+    );
+
+
+    return updated;
+
+}
+
 
 
 export function getExecution(
@@ -33,6 +88,7 @@ export function getExecution(
     );
 
 }
+
 
 
 export function getAllExecutions(){

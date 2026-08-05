@@ -9,7 +9,8 @@ import {
 
 
 import {
-    createExecution
+    createExecution,
+    updateExecution
 } from "../../store/executionStore.js";
 
 
@@ -90,10 +91,26 @@ export class ExecutionService {
     ):ExecutionState {
 
 
-        return this.stateManager.transition(
-            execution,
-            "running"
+        const updated =
+            this.stateManager.transition(
+                execution,
+                "running"
+            );
+
+
+        updateExecution(
+            execution.executionId,
+            {
+                state:
+                    updated.status,
+
+                updatedAt:
+                    updated.updatedAt
+            }
         );
+
+
+        return updated;
 
     }
 
@@ -104,10 +121,26 @@ export class ExecutionService {
     ):ExecutionState {
 
 
-        return this.stateManager.transition(
-            execution,
-            "completed"
+        const updated =
+            this.stateManager.transition(
+                execution,
+                "completed"
+            );
+
+
+        updateExecution(
+            execution.executionId,
+            {
+                state:
+                    updated.status,
+
+                updatedAt:
+                    updated.updatedAt
+            }
         );
+
+
+        return updated;
 
     }
 
