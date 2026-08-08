@@ -4,19 +4,36 @@ import {
 
 
 import {
+    EventRepository
+} from "./EventRepository.js";
+
+
+import {
     FileEventRepository
 } from "./FileEventRepository.js";
 
 
 
-const repository =
+let repository:
+    EventRepository =
     new FileEventRepository();
+
+
+
+export function configureEventRepository(
+    nextRepository: EventRepository
+): void {
+
+    repository =
+        nextRepository;
+
+}
 
 
 
 export function appendEvent(
     event: ExecutionEvent
-) {
+): ExecutionEvent {
 
     return repository.append(
         event
@@ -27,8 +44,8 @@ export function appendEvent(
 
 
 export function getEvents(
-    executionId:string
-):ExecutionEvent[] {
+    executionId: string
+): ExecutionEvent[] {
 
     return repository.getEvents(
         executionId
