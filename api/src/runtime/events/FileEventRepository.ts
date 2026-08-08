@@ -2,11 +2,9 @@ import {
     ExecutionEvent
 } from "./ExecutionEvent.js";
 
-
 import {
     EventRepository
 } from "./EventRepository.js";
-
 
 import {
     existsSync,
@@ -15,19 +13,44 @@ import {
     writeFileSync
 } from "node:fs";
 
-
 import {
+    dirname,
     join
 } from "node:path";
+
+import {
+    fileURLToPath
+} from "node:url";
+
+
+
+const currentFile =
+    fileURLToPath(
+        import.meta.url
+    );
+
+
+
+const currentDirectory =
+    dirname(
+        currentFile
+    );
+
+
+
+const defaultDirectory =
+    join(
+        currentDirectory,
+        "../storage/events"
+    );
 
 
 
 export class FileEventRepository
 implements EventRepository {
 
-
     private directory =
-        "src/runtime/storage/events";
+        defaultDirectory;
 
 
 
@@ -51,7 +74,6 @@ implements EventRepository {
     append(
         event:ExecutionEvent
     ):ExecutionEvent {
-
 
         const file =
             join(
@@ -97,7 +119,6 @@ implements EventRepository {
     getEvents(
         executionId:string
     ):ExecutionEvent[] {
-
 
         const file =
             join(
