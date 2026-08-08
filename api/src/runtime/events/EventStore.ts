@@ -4,20 +4,19 @@ import {
 
 
 import {
-    MemoryEventRepository
-} from "./MemoryEventRepository.js";
+    FileEventRepository
+} from "./FileEventRepository.js";
 
 
 
 const repository =
-    new MemoryEventRepository();
+    new FileEventRepository();
 
 
 
 export function appendEvent(
     event: ExecutionEvent
 ) {
-
 
     return repository.append(
         event
@@ -30,7 +29,6 @@ export function appendEvent(
 export function getEvents(
     executionId:string
 ):ExecutionEvent[] {
-
 
     return repository.getEvents(
         executionId
