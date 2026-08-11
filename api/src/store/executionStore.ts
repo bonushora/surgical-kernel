@@ -1,6 +1,12 @@
+import {
+    ExecutionContext
+} from "../runtime/context/ExecutionContext.js";
+
 export interface Execution {
 
     executionId: string;
+
+    context: ExecutionContext;
 
     projectId: string;
 

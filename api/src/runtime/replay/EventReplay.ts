@@ -42,6 +42,9 @@ export function replayExecution(
 
         executionId,
 
+        context:
+            first.payload.context,
+
         projectId:
             first.payload.projectId,
 

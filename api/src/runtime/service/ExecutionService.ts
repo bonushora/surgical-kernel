@@ -23,6 +23,10 @@ import {
     ExecutionState
 } from "../state/ExecutionState.js";
 
+import {
+    ExecutionContext
+} from "../context/ExecutionContext.js";
+
 
 import {
     appendEvent
@@ -38,6 +42,8 @@ import {
 export interface CreateExecutionRequest {
 
     executionId:string;
+
+    context: ExecutionContext;
 
     projectId:string;
 
@@ -98,6 +104,9 @@ export class ExecutionService {
                 new Date().toISOString(),
 
             payload: {
+
+                context:
+                    execution.context,
 
                 projectId:
                     execution.projectId,
@@ -174,6 +183,9 @@ export class ExecutionService {
 
             payload: {
 
+                context:
+                    execution.context,
+
                 projectId:
                     execution.projectId,
 
@@ -241,6 +253,9 @@ export class ExecutionService {
                 new Date().toISOString(),
 
             payload: {
+
+                context:
+                    execution.context,
 
                 projectId:
                     execution.projectId,

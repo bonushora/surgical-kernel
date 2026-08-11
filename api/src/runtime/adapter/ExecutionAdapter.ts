@@ -2,10 +2,16 @@ import {
     ExecutionState
 } from "../state/ExecutionState.js";
 
+import {
+    ExecutionContext
+} from "../context/ExecutionContext.js";
+
 
 export interface StoreExecution {
 
     executionId: string;
+
+    context: ExecutionContext;
 
     projectId: string;
 
@@ -29,6 +35,9 @@ export function toStoreExecution(
 
         executionId:
             execution.executionId,
+
+        context:
+            execution.context,
 
         projectId:
             execution.projectId,

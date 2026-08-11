@@ -1,6 +1,12 @@
+import {
+    ExecutionContext
+} from "../context/ExecutionContext.js";
+
 export interface ReplayState {
 
     executionId:string;
+
+    context: ExecutionContext;
 
     projectId:string;
 

@@ -39,6 +39,21 @@ router.post(
                 executionId:
                     crypto.randomUUID(),
 
+                context:
+                    req.body.context ?? {
+                        organizationId:
+                            req.body.organizationId ?? "unknown",
+
+                        projectId:
+                            req.body.projectId ?? "unknown",
+
+                        actorId:
+                            req.body.actorId ?? "anonymous",
+
+                        role:
+                            req.body.role ?? "consumer"
+                    },
+
                 projectId:
                     req.body.projectId ?? "unknown",
 
@@ -100,6 +115,9 @@ router.post(
             executionId:
                 stored.executionId,
 
+            context:
+                stored.context,
+
             projectId:
                 stored.projectId,
 
@@ -160,6 +178,9 @@ router.post(
 
             executionId:
                 stored.executionId,
+
+            context:
+                stored.context,
 
             projectId:
                 stored.projectId,

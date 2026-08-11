@@ -3,10 +3,16 @@ import {
     ExecutionMode
 } from "./state/ExecutionState.js";
 
+import {
+    ExecutionContext
+} from "./context/ExecutionContext.js";
+
 
 export interface CreateExecutionInput {
 
     executionId: string;
+
+    context: ExecutionContext;
 
     projectId: string;
 
@@ -33,6 +39,9 @@ export class KernelEngine {
 
             executionId:
                 input.executionId,
+
+            context:
+                input.context,
 
             projectId:
                 input.projectId,

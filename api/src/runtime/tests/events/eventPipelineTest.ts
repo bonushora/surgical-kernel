@@ -20,6 +20,20 @@ const execution =
         executionId:
             crypto.randomUUID(),
 
+        context: {
+            organizationId:
+                "bonora",
+
+            projectId:
+                "bonushora",
+
+            actorId:
+                "event-pipeline-test",
+
+            role:
+                "consumer"
+        },
+
         projectId:
             "bonushora",
 

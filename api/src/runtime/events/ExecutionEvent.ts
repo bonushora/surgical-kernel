@@ -1,3 +1,7 @@
+import {
+    ExecutionContext
+} from "../context/ExecutionContext.js";
+
 export type ExecutionEventType =
     | "execution.created"
     | "execution.started"
@@ -18,6 +22,8 @@ export interface ExecutionEvent {
 
 
     payload: {
+
+        context: ExecutionContext;
 
         projectId: string;
 

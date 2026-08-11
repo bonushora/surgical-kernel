@@ -1,3 +1,8 @@
+import {
+    ExecutionContext
+} from "../context/ExecutionContext.js";
+
+
 export type ExecutionMode =
     | "free"
     | "deterministic";
@@ -13,6 +18,8 @@ export type ExecutionStatus =
 export interface ExecutionState {
 
     executionId: string;
+
+    context: ExecutionContext;
 
     projectId: string;
 
