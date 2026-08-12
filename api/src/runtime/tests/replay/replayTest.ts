@@ -47,14 +47,16 @@ const execution =
 
 
 
-service.start(
-    execution
-);
+const running =
+    service.start(
+        execution
+    );
 
 
-service.complete(
-    execution
-);
+const completed =
+    service.complete(
+        running
+    );
 
 
 
