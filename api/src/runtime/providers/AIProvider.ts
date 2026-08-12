@@ -31,6 +31,10 @@ export interface AIProviderResponse {
 
 export interface AIProvider {
 
+    readonly provider: string;
+
+    readonly model: string;
+
     execute(
         input: AIProviderRequest
     ): Promise<AIProviderResponse>;

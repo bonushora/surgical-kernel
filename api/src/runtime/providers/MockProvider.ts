@@ -7,6 +7,13 @@ import type {
 export class MockProvider
     implements AIProvider {
 
+    readonly provider =
+        "mock";
+
+    readonly model =
+        "mock-deterministic-v1";
+
+
     async execute(
         input: AIProviderRequest
     ): Promise<AIProviderResponse> {

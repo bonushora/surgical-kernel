@@ -19,6 +19,12 @@ import {
 
 class TestProvider implements AIProvider {
 
+    readonly provider =
+        "test-provider";
+
+    readonly model =
+        "test-model-v1";
+
     async execute(
         input: AIProviderRequest
     ): Promise<AIProviderResponse> {

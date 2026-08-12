@@ -27,6 +27,12 @@ import type {
 
 class CountingProvider implements AIProvider {
 
+    readonly provider =
+        "counting-provider";
+
+    readonly model =
+        "counting-model-v1";
+
     public calls = 0;
 
     async execute(

@@ -24,6 +24,12 @@ import type {
 
 class TestProvider implements AIProvider {
 
+    readonly provider =
+        "recovery-test-provider";
+
+    readonly model =
+        "recovery-test-model";
+
     async execute(
         input: AIProviderRequest
     ): Promise<AIProviderResponse> {
