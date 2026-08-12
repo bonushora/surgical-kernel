@@ -1,11 +1,23 @@
+import type {
+    ExecutionContext
+}
+from "./ExecutionContext";
+
+
+import type {
+    ExecutionMode
+}
+from "./ExecutionMode";
+
+
 export interface ExecutionRequest {
 
-    system: string;
+    context: ExecutionContext;
 
-    action: string;
+    projectId: string;
 
-    context?: Record<string, unknown>;
+    mode: ExecutionMode;
 
-    request: unknown;
+    request: string;
 
 }

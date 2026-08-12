@@ -59,6 +59,25 @@ from "./contracts/ExecutionResponse";
 
 
 export type {
+    ExecutionContext,
+    ExecutionRole
+}
+from "./contracts/ExecutionContext";
+
+
+export type {
+    ExecutionMode
+}
+from "./contracts/ExecutionMode";
+
+
+export type {
+    ExecutionStatus
+}
+from "./contracts/ExecutionStatus";
+
+
+export type {
     KernelRuntimeConfig
 }
 from "./runtime/KernelRuntime";

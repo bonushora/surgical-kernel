@@ -1,24 +1,23 @@
+import type {
+    ExecutionMode
+}
+from "./ExecutionMode";
+
+
+import type {
+    ExecutionStatus
+}
+from "./ExecutionStatus";
+
+
 export interface ExecutionResponse {
 
-    result: unknown;
+    executionId: string;
 
-    decision:
-    "ALLOW" |
-    "REVIEW" |
-    "BLOCK";
+    status: "accepted";
 
-    risk: {
+    mode: ExecutionMode;
 
-        score:number;
-
-        classification:string;
-
-    };
-
-    audit:any;
-
-    snapshot:any;
-
-    replay:any;
+    state: ExecutionStatus;
 
 }
