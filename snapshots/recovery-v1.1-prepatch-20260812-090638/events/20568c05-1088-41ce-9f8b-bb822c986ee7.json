@@ -1,0 +1,49 @@
+[
+  {
+    "eventId": "bcb9b228-1c8b-473c-9610-5c62af878400",
+    "executionId": "20568c05-1088-41ce-9f8b-bb822c986ee7",
+    "type": "execution.created",
+    "timestamp": "2026-08-12T04:15:03.981Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "TESTE_EVENT_SOURCING_RESULT_V2",
+      "state": "initialized"
+    }
+  },
+  {
+    "eventId": "fb4a1bda-19f5-483f-b650-325c1df40d4f",
+    "executionId": "20568c05-1088-41ce-9f8b-bb822c986ee7",
+    "type": "execution.completed",
+    "timestamp": "2026-08-12T04:15:03.981Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "TESTE_EVENT_SOURCING_RESULT_V2",
+      "state": "initialized",
+      "result": {
+        "output": "Mock AI response for: TESTE_EVENT_SOURCING_RESULT_V2",
+        "provider": "mock",
+        "model": "mock-deterministic-v1",
+        "metadata": {
+          "projectId": "bh-smc",
+          "mode": "deterministic",
+          "organizationId": "bonushora",
+          "actorId": "secis"
+        }
+      }
+    }
+  }
+]

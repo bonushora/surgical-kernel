@@ -1,0 +1,67 @@
+[
+  {
+    "eventId": "232c3549-43ed-4ad9-aa73-075bf502b881",
+    "executionId": "b0e8197c-03ab-428c-b697-5c4353e4fd56",
+    "type": "execution.created",
+    "timestamp": "2026-08-12T04:23:22.893Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "TESTE_EVENT_SOURCING_LIFECYCLE_V3",
+      "state": "initialized"
+    }
+  },
+  {
+    "eventId": "bdd72394-6e60-4e90-8f52-d2145faa86c4",
+    "executionId": "b0e8197c-03ab-428c-b697-5c4353e4fd56",
+    "type": "execution.started",
+    "timestamp": "2026-08-12T04:23:22.893Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "TESTE_EVENT_SOURCING_LIFECYCLE_V3",
+      "state": "running"
+    }
+  },
+  {
+    "eventId": "c714dce7-abc6-46fa-9e99-03fd4a881b76",
+    "executionId": "b0e8197c-03ab-428c-b697-5c4353e4fd56",
+    "type": "execution.completed",
+    "timestamp": "2026-08-12T04:23:22.894Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "TESTE_EVENT_SOURCING_LIFECYCLE_V3",
+      "state": "completed",
+      "result": {
+        "output": "Mock AI response for: TESTE_EVENT_SOURCING_LIFECYCLE_V3",
+        "provider": "mock",
+        "model": "mock-deterministic-v1",
+        "metadata": {
+          "projectId": "bh-smc",
+          "mode": "deterministic",
+          "organizationId": "bonushora",
+          "actorId": "secis"
+        }
+      }
+    }
+  }
+]

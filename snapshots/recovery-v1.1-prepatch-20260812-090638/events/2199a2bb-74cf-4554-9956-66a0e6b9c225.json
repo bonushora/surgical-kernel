@@ -1,0 +1,20 @@
+[
+  {
+    "eventId": "fb7d5e6b-bb22-416d-876c-b287aea8a42d",
+    "executionId": "2199a2bb-74cf-4554-9956-66a0e6b9c225",
+    "type": "execution.created",
+    "timestamp": "2026-08-12T03:47:09.030Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "Gerar relatório de impacto social",
+      "state": "initialized"
+    }
+  }
+]

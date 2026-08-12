@@ -1,0 +1,56 @@
+[
+  {
+    "eventId": "4491bf4e-ac6a-4d42-a5a0-d80bab10978a",
+    "executionId": "c182d8df-fc27-4373-9b34-c4f75a7d4b5b",
+    "type": "execution.created",
+    "timestamp": "2026-08-11T17:06:39.905Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonora",
+        "projectId": "bonushora",
+        "actorId": "execution-service-test",
+        "role": "consumer"
+      },
+      "projectId": "bonushora",
+      "mode": "deterministic",
+      "request": "execution service validation",
+      "state": "initialized"
+    }
+  },
+  {
+    "eventId": "6f5e61ee-bd15-4b43-9789-43c9260d5c45",
+    "executionId": "c182d8df-fc27-4373-9b34-c4f75a7d4b5b",
+    "type": "execution.started",
+    "timestamp": "2026-08-11T17:06:39.908Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonora",
+        "projectId": "bonushora",
+        "actorId": "execution-service-test",
+        "role": "consumer"
+      },
+      "projectId": "bonushora",
+      "mode": "deterministic",
+      "request": "execution service validation",
+      "state": "running"
+    }
+  },
+  {
+    "eventId": "be61e6e3-b737-4139-906e-a98eff67ffa6",
+    "executionId": "c182d8df-fc27-4373-9b34-c4f75a7d4b5b",
+    "type": "execution.completed",
+    "timestamp": "2026-08-11T17:06:39.908Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonora",
+        "projectId": "bonushora",
+        "actorId": "execution-service-test",
+        "role": "consumer"
+      },
+      "projectId": "bonushora",
+      "mode": "deterministic",
+      "request": "execution service validation",
+      "state": "completed"
+    }
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "eventId": "18b28368-4eab-4095-b11a-d16325522fb0",
+    "executionId": "90234930-fadb-42f1-a294-6ff5ccbc3a0c",
+    "type": "execution.created",
+    "timestamp": "2026-08-12T04:31:01.008Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "TESTE_STATE_GUARD_EVENT_REPLAY_V4",
+      "state": "initialized"
+    }
+  },
+  {
+    "eventId": "2a0a949f-6f18-47a5-9bfc-98d37af64c53",
+    "executionId": "90234930-fadb-42f1-a294-6ff5ccbc3a0c",
+    "type": "execution.started",
+    "timestamp": "2026-08-12T04:31:01.008Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "TESTE_STATE_GUARD_EVENT_REPLAY_V4",
+      "state": "running"
+    }
+  },
+  {
+    "eventId": "d7c2e616-b0ae-4c5a-92cf-dee186dddf66",
+    "executionId": "90234930-fadb-42f1-a294-6ff5ccbc3a0c",
+    "type": "execution.completed",
+    "timestamp": "2026-08-12T04:31:01.008Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "TESTE_STATE_GUARD_EVENT_REPLAY_V4",
+      "state": "completed",
+      "result": {
+        "output": "Mock AI response for: TESTE_STATE_GUARD_EVENT_REPLAY_V4",
+        "provider": "mock",
+        "model": "mock-deterministic-v1",
+        "metadata": {
+          "projectId": "bh-smc",
+          "mode": "deterministic",
+          "organizationId": "bonushora",
+          "actorId": "secis"
+        }
+      }
+    }
+  }
+]

@@ -4,8 +4,8 @@ import {
 
 
 import {
-    getEvents
-} from "../../events/EventStore.js";
+    replayExecution
+} from "../../replay/EventReplay.js";
 
 
 
@@ -28,7 +28,7 @@ const execution =
                 "bonushora",
 
             actorId:
-                "event-pipeline-test",
+                "replay-test",
 
             role:
                 "consumer"
@@ -41,33 +41,32 @@ const execution =
             "deterministic",
 
         request:
-            "event pipeline validation"
+            "replay validation"
 
     });
 
 
 
-const running =
 service.start(
     execution
 );
 
+
 service.complete(
-    running
+    execution
 );
 
 
 
-const events =
-    getEvents(
+const replay =
+    replayExecution(
         execution.executionId
     );
 
 
-
 console.log(
     JSON.stringify(
-        events,
+        replay,
         null,
         2
     )

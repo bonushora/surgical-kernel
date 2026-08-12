@@ -1,0 +1,20 @@
+[
+  {
+    "eventId": "0d1891c7-3f7d-4a72-8045-9915556894c2",
+    "executionId": "8ee4233f-53b6-40d4-8af7-5114bcef54b0",
+    "type": "execution.created",
+    "timestamp": "2026-08-12T03:17:56.021Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "Teste de compatibilidade",
+      "state": "initialized"
+    }
+  }
+]

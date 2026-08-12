@@ -1,0 +1,20 @@
+[
+  {
+    "eventId": "0bafd6cb-ea45-490a-bab7-c88ed4428fb6",
+    "executionId": "dc4c1185-4afc-4a27-afb7-7fd8beec8c01",
+    "type": "execution.created",
+    "timestamp": "2026-08-12T04:01:32.286Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "PROVA_PROVIDER_V2",
+      "state": "initialized"
+    }
+  }
+]

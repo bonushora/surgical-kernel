@@ -1,0 +1,38 @@
+[
+  {
+    "eventId": "faa6ceae-583a-4989-b6c6-7e6bc0fff574",
+    "executionId": "49984da8-654d-48bb-876a-7ed4e7e42513",
+    "type": "execution.created",
+    "timestamp": "2026-08-11T16:32:45.800Z",
+    "payload": {
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "Teste de integração Surgical Kernel BH-SMC",
+      "state": "initialized"
+    }
+  },
+  {
+    "eventId": "c9d8aa74-0e5b-46e7-86c0-a33677fab239",
+    "executionId": "49984da8-654d-48bb-876a-7ed4e7e42513",
+    "type": "execution.started",
+    "timestamp": "2026-08-11T16:32:45.837Z",
+    "payload": {
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "Teste de integração Surgical Kernel BH-SMC",
+      "state": "running"
+    }
+  },
+  {
+    "eventId": "df6eac44-8b78-4127-98a5-3b5ab6f032a4",
+    "executionId": "49984da8-654d-48bb-876a-7ed4e7e42513",
+    "type": "execution.completed",
+    "timestamp": "2026-08-11T16:32:45.865Z",
+    "payload": {
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "Teste de integração Surgical Kernel BH-SMC",
+      "state": "completed"
+    }
+  }
+]

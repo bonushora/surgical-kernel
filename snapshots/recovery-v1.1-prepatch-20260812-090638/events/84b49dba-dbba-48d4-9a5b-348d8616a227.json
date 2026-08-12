@@ -1,0 +1,56 @@
+[
+  {
+    "eventId": "3f78f8ea-5ae6-4a66-9cc8-e9dc94ae0f5e",
+    "executionId": "84b49dba-dbba-48d4-9a5b-348d8616a227",
+    "type": "execution.created",
+    "timestamp": "2026-08-12T03:19:37.524Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "Gerar relatório de impacto social",
+      "state": "initialized"
+    }
+  },
+  {
+    "eventId": "8c80e536-d4a5-442d-bd7e-05757f78ece6",
+    "executionId": "84b49dba-dbba-48d4-9a5b-348d8616a227",
+    "type": "execution.started",
+    "timestamp": "2026-08-12T03:19:37.555Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "Gerar relatório de impacto social",
+      "state": "running"
+    }
+  },
+  {
+    "eventId": "6317ecfc-47db-4fe9-9d98-0e1c1b263614",
+    "executionId": "84b49dba-dbba-48d4-9a5b-348d8616a227",
+    "type": "execution.completed",
+    "timestamp": "2026-08-12T03:19:37.569Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "Gerar relatório de impacto social",
+      "state": "completed"
+    }
+  }
+]

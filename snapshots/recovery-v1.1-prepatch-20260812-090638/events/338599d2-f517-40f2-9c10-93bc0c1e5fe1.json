@@ -1,0 +1,56 @@
+[
+  {
+    "eventId": "b2113cc0-6500-4bfe-a614-d22d4660cfde",
+    "executionId": "338599d2-f517-40f2-9c10-93bc0c1e5fe1",
+    "type": "execution.created",
+    "timestamp": "2026-08-11T17:11:59.334Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonora",
+        "projectId": "bonushora",
+        "actorId": "event-pipeline-test",
+        "role": "consumer"
+      },
+      "projectId": "bonushora",
+      "mode": "deterministic",
+      "request": "event pipeline validation",
+      "state": "initialized"
+    }
+  },
+  {
+    "eventId": "daa11653-bc55-4c73-b103-920bdb561bab",
+    "executionId": "338599d2-f517-40f2-9c10-93bc0c1e5fe1",
+    "type": "execution.started",
+    "timestamp": "2026-08-11T17:11:59.334Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonora",
+        "projectId": "bonushora",
+        "actorId": "event-pipeline-test",
+        "role": "consumer"
+      },
+      "projectId": "bonushora",
+      "mode": "deterministic",
+      "request": "event pipeline validation",
+      "state": "running"
+    }
+  },
+  {
+    "eventId": "258609d8-feca-4e25-9d15-6f30a794bdf5",
+    "executionId": "338599d2-f517-40f2-9c10-93bc0c1e5fe1",
+    "type": "execution.completed",
+    "timestamp": "2026-08-11T17:11:59.334Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonora",
+        "projectId": "bonushora",
+        "actorId": "event-pipeline-test",
+        "role": "consumer"
+      },
+      "projectId": "bonushora",
+      "mode": "deterministic",
+      "request": "event pipeline validation",
+      "state": "completed"
+    }
+  }
+]

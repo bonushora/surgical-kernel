@@ -1,0 +1,46 @@
+[
+  {
+    "eventId": "20be0c27-7b05-45cc-8b50-6991b0078791",
+    "executionId": "DIAGNOSTIC-EVENTSTORE-ded16db2-72a8-40fc-ac00-6a6f0a3dc645",
+    "type": "execution.created",
+    "timestamp": "2026-08-12T04:13:03.565Z",
+    "payload": {
+      "context": {
+        "organizationId": "diagnostic",
+        "projectId": "diagnostic",
+        "actorId": "diagnostic",
+        "role": "consumer"
+      },
+      "projectId": "diagnostic",
+      "mode": "deterministic",
+      "request": "EVENTSTORE_DIRECT_TEST",
+      "state": "initialized"
+    }
+  },
+  {
+    "eventId": "25483f01-fd5e-4e0f-bc03-e6c3c3f0898e",
+    "executionId": "DIAGNOSTIC-EVENTSTORE-ded16db2-72a8-40fc-ac00-6a6f0a3dc645",
+    "type": "execution.completed",
+    "timestamp": "2026-08-12T04:13:03.565Z",
+    "payload": {
+      "context": {
+        "organizationId": "diagnostic",
+        "projectId": "diagnostic",
+        "actorId": "diagnostic",
+        "role": "consumer"
+      },
+      "projectId": "diagnostic",
+      "mode": "deterministic",
+      "request": "EVENTSTORE_DIRECT_TEST",
+      "state": "initialized",
+      "result": {
+        "output": "DIRECT_EVENTSTORE_TEST",
+        "provider": "diagnostic",
+        "model": "diagnostic-v1",
+        "metadata": {
+          "test": true
+        }
+      }
+    }
+  }
+]

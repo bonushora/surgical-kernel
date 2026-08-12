@@ -16,6 +16,7 @@ import {
 } from "../../store/executionStore.js";
 
 
+
 export function recoverExecutions(): number {
 
     const executionIds =
@@ -24,57 +25,10 @@ export function recoverExecutions(): number {
     let recovered = 0;
 
 
-    for (
+    for(
         const executionId
         of executionIds
-    ) {
-
-        const events =
-            getEvents(
-                executionId
-            );
-
-
-        if (events.length === 0) {
-
-            continue;
-
-        }
-
-
-        const last =
-            events[
-                events.length - 1
-            ];
-
-
-        /*
-         * RECOVERY V1.2
-         *
-         * An execution whose latest event is
-     * execution.completed or execution.failed is terminal.
-         *
-         * This includes both:
-         *
-         * created -> started -> completed
-         * created -> completed
-         *
-         * Any other lifecycle ending is considered
-         * recoverable from the event ledger.
-         */
-
-        if (
-            last.type ===
-"execution.completed"
-        ||
-        last.type ===
-        "execution.failed"
-        ) {
-
-            continue;
-
-        }
-
+    ){
 
         const replay =
             replayExecution(
@@ -82,7 +36,20 @@ export function recoverExecutions(): number {
             );
 
 
-        if (!replay) {
+        if(!replay){
+
+            continue;
+
+        }
+
+
+        const events =
+            getEvents(
+                executionId
+            );
+
+
+        if(events.length === 0){
 
             continue;
 
@@ -91,6 +58,11 @@ export function recoverExecutions(): number {
 
         const first =
             events[0];
+
+        const last =
+            events[
+                events.length - 1
+            ];
 
 
         const execution: Execution = {

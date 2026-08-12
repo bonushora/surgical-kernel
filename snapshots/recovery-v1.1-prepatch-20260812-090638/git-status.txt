@@ -1,0 +1,19 @@
+ M api/src/routes/kernelRoutes.ts
+ M api/src/runtime/adapter/ExecutionAdapter.ts
+ M api/src/runtime/events/EventRepository.ts
+ M api/src/runtime/events/EventStore.ts
+ M api/src/runtime/events/ExecutionEvent.ts
+ M api/src/runtime/events/FileEventRepository.ts
+ M api/src/runtime/events/MemoryEventRepository.ts
+ M api/src/runtime/manager/RuntimeStateManager.ts
+ M api/src/runtime/replay/EventReplay.ts
+ M api/src/runtime/replay/ReplayState.ts
+ M api/src/runtime/service/ExecutionService.ts
+ M api/src/runtime/state/ExecutionState.ts
+ M api/src/server.ts
+ M api/src/store/executionStore.ts
+A  docs/adr/ADR-002-saas-identidade-autorizacao-multi-tenant.md
+?? api/src/runtime/providers/
+?? api/src/runtime/recovery/
+?? api/src/runtime/state/ExecutionResult.ts
+?? snapshots/

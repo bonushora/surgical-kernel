@@ -1,0 +1,20 @@
+[
+  {
+    "eventId": "9a25e695-800b-44a5-ae05-74bbb33bdbfd",
+    "executionId": "178c74c5-9d6e-4e81-98a8-aab5c925cce0",
+    "type": "execution.created",
+    "timestamp": "2026-08-12T03:52:18.233Z",
+    "payload": {
+      "context": {
+        "organizationId": "bonushora",
+        "projectId": "bh-smc",
+        "actorId": "secis",
+        "role": "consumer"
+      },
+      "projectId": "bh-smc",
+      "mode": "deterministic",
+      "request": "Teste AI Provider",
+      "state": "initialized"
+    }
+  }
+]

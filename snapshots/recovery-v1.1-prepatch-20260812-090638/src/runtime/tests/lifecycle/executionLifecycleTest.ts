@@ -3,12 +3,6 @@ import {
 } from "../../service/ExecutionService.js";
 
 
-import {
-    getEvents
-} from "../../events/EventStore.js";
-
-
-
 const service =
     new ExecutionService();
 
@@ -28,7 +22,7 @@ const execution =
                 "bonushora",
 
             actorId:
-                "event-pipeline-test",
+                "lifecycle-test",
 
             role:
                 "consumer"
@@ -41,34 +35,50 @@ const execution =
             "deterministic",
 
         request:
-            "event pipeline validation"
+            "execution lifecycle validation"
 
     });
 
 
 
+console.log(
+    "CREATED:",
+    JSON.stringify(execution)
+);
+
+
+
 const running =
-service.start(
-    execution
-);
-
-service.complete(
-    running
-);
-
-
-
-const events =
-    getEvents(
-        execution.executionId
+    service.start(
+        execution
     );
+
+
+console.log(
+    "RUNNING:",
+    JSON.stringify(running)
+);
+
+
+
+const completed =
+    service.complete(
+        running
+    );
+
+
+console.log(
+    "COMPLETED:",
+    JSON.stringify(completed)
+);
 
 
 
 console.log(
+    "HISTORY:",
     JSON.stringify(
-        events,
-        null,
-        2
+        service.history(
+            execution.executionId
+        )
     )
 );

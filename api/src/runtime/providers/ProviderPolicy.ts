@@ -1,0 +1,135 @@
+import type {
+    AIProviderRequest
+} from "./AIProvider.js";
+
+export interface ProviderPolicyDecision {
+
+    allowed: boolean;
+
+    provider: string;
+
+    model: string;
+
+    reason?: string;
+
+}
+
+export interface ProviderPolicy {
+
+    authorize(
+        input: AIProviderRequest
+    ): ProviderPolicyDecision;
+
+}
+
+export class DeterministicProviderPolicy
+implements ProviderPolicy {
+
+    authorize(
+        input: AIProviderRequest
+    ): ProviderPolicyDecision {
+
+        if (
+            !input.context.organizationId
+        ) {
+
+            return {
+
+                allowed: false,
+
+                provider:
+                    "mock",
+
+                model:
+                    "mock-deterministic-v1",
+
+                reason:
+                    "Missing organization context."
+
+            };
+
+        }
+
+        if (
+            !input.context.projectId
+        ) {
+
+            return {
+
+                allowed: false,
+
+                provider:
+                    "mock",
+
+                model:
+                    "mock-deterministic-v1",
+
+                reason:
+                    "Missing project context."
+
+            };
+
+        }
+
+        if (
+            input.projectId !==
+            input.context.projectId
+        ) {
+
+            return {
+
+                allowed: false,
+
+                provider:
+                    "mock",
+
+                model:
+                    "mock-deterministic-v1",
+
+                reason:
+                    "Execution project does not match execution context."
+
+            };
+
+        }
+
+        if (
+            input.mode ===
+            "deterministic"
+        ) {
+
+            return {
+
+                allowed: true,
+
+                provider:
+                    "mock",
+
+                model:
+                    "mock-deterministic-v1",
+
+                reason:
+                    "Deterministic mock provider explicitly authorized."
+
+            };
+
+        }
+
+        return {
+
+            allowed: false,
+
+            provider:
+                "mock",
+
+            model:
+                "mock-deterministic-v1",
+
+            reason:
+                "Provider execution is not authorized for this mode."
+
+        };
+
+    }
+
+}

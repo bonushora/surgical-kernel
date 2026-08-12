@@ -39,27 +39,24 @@ import {
     MockProvider
 } from "../providers/MockProvider.js";
 
-import {
-    DeterministicProviderPolicy,
-    ProviderPolicy
-} from "../providers/ProviderPolicy.js";
 
 export interface CreateExecutionRequest {
 
-    executionId: string;
+    executionId:string;
 
     context: ExecutionContext;
 
-    projectId: string;
+    projectId:string;
 
     mode:
         "free"
         |
         "deterministic";
 
-    request: string;
+    request:string;
 
 }
+
 
 export class ExecutionService {
 
@@ -75,30 +72,21 @@ export class ExecutionService {
         AIProvider;
 
 
-    private providerPolicy:
-        ProviderPolicy;
-
-
     constructor(
         provider: AIProvider =
-            new MockProvider(),
-
-        providerPolicy: ProviderPolicy =
-            new DeterministicProviderPolicy()
+            new MockProvider()
     ){
 
         this.provider =
             provider;
 
-        this.providerPolicy =
-            providerPolicy;
-
     }
 
 
     create(
-        input: CreateExecutionRequest
-    ): ExecutionState {
+        input:CreateExecutionRequest
+    ):ExecutionState {
+
 
         const execution =
             this.engine.createExecution(
@@ -172,113 +160,12 @@ export class ExecutionService {
         execution: ExecutionState
     ): Promise<ExecutionState> {
 
-        const providerRequest = {
 
-            request:
-                execution.request,
+        const result =
+            await this.provider.execute({
 
-            context:
-                execution.context,
-
-            projectId:
-                execution.projectId,
-
-            mode:
-                execution.mode
-
-        };
-
-
-        const decision =
-            this.providerPolicy.authorize(
-                providerRequest
-            );
-
-
-        if (
-            !decision.allowed
-        ) {
-
-            const failed: ExecutionState = {
-
-                ...execution,
-
-                status:
-                    "failed",
-
-                updatedAt:
-                    new Date().toISOString(),
-
-                result: {
-
-                    output:
-                        `Provider execution denied: ${decision.reason}`,
-
-                    provider:
-                        decision.provider,
-
-                    model:
-                        decision.model,
-
-                    metadata: {
-
-                        governance:
-                            "denied",
-
-                        reason:
-                            decision.reason,
-
-                        projectId:
-                            execution.projectId,
-
-                        mode:
-                            execution.mode,
-
-                        organizationId:
-                            execution.context.organizationId,
-
-                        actorId:
-                            execution.context.actorId
-
-                    }
-
-                }
-
-            };
-
-
-            updateExecution(
-                execution.executionId,
-                {
-
-                    state:
-                        failed.status,
-
-                    result:
-                        failed.result,
-
-                    updatedAt:
-                        failed.updatedAt
-
-                }
-            );
-
-
-            const failedEvent: ExecutionEvent = {
-
-            eventId:
-                crypto.randomUUID(),
-
-            executionId:
-                execution.executionId,
-
-            type:
-                "execution.failed",
-
-            timestamp:
-                new Date().toISOString(),
-
-            payload: {
+                request:
+                    execution.request,
 
                 context:
                     execution.context,
@@ -287,36 +174,9 @@ export class ExecutionService {
                     execution.projectId,
 
                 mode:
-                    execution.mode,
+                    execution.mode
 
-                request:
-                    execution.request,
-
-                state:
-                    failed.status,
-
-                result:
-                    failed.result
-
-            }
-
-        };
-
-
-        appendEvent(
-            failedEvent
-        );
-
-
-        return failed;
-
-        }
-
-
-        const result =
-            await this.provider.execute(
-                providerRequest
-            );
+            });
 
 
         const updated: ExecutionState = {
@@ -334,12 +194,9 @@ export class ExecutionService {
         updateExecution(
             execution.executionId,
             {
-
                 result,
-
                 updatedAt:
                     updated.updatedAt
-
             }
         );
 
@@ -350,8 +207,9 @@ export class ExecutionService {
 
 
     start(
-        execution: ExecutionState
-    ): ExecutionState {
+        execution:ExecutionState
+    ):ExecutionState {
+
 
         const updated =
             this.stateManager.transition(
@@ -363,13 +221,11 @@ export class ExecutionService {
         updateExecution(
             execution.executionId,
             {
-
                 state:
                     updated.status,
 
                 updatedAt:
                     updated.updatedAt
-
             }
         );
 
@@ -421,8 +277,9 @@ export class ExecutionService {
 
 
     complete(
-        execution: ExecutionState
-    ): ExecutionState {
+        execution:ExecutionState
+    ):ExecutionState {
+
 
         const updated =
             this.stateManager.transition(
@@ -434,13 +291,11 @@ export class ExecutionService {
         updateExecution(
             execution.executionId,
             {
-
                 state:
                     updated.status,
 
                 updatedAt:
                     updated.updatedAt
-
             }
         );
 
@@ -495,7 +350,7 @@ export class ExecutionService {
 
 
     history(
-        executionId: string
+        executionId:string
     ){
 
         return this.stateManager.history(

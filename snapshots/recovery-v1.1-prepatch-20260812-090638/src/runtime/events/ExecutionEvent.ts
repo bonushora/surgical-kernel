@@ -5,8 +5,8 @@ import {
 export type ExecutionEventType =
     | "execution.created"
     | "execution.started"
-    | "execution.completed"
-    | "execution.failed";
+    | "execution.completed";
+
 
 export interface ExecutionEvent {
 
@@ -17,7 +17,9 @@ export interface ExecutionEvent {
     type:
         ExecutionEventType;
 
+
     timestamp: string;
+
 
     payload: {
 
