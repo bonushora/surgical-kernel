@@ -2,22 +2,18 @@ import {
     KernelEngine
 } from "../KernelEngine.js";
 
-
 import {
     RuntimeStateManager
 } from "../manager/RuntimeStateManager.js";
-
 
 import {
     createExecution,
     updateExecution
 } from "../../store/executionStore.js";
 
-
 import {
     toStoreExecution
 } from "../adapter/ExecutionAdapter.js";
-
 
 import {
     ExecutionState
@@ -27,16 +23,21 @@ import {
     ExecutionContext
 } from "../context/ExecutionContext.js";
 
-
 import {
     appendEvent
 } from "../events/EventStore.js";
-
 
 import {
     ExecutionEvent
 } from "../events/ExecutionEvent.js";
 
+import {
+    AIProvider
+} from "../providers/AIProvider.js";
+
+import {
+    MockProvider
+} from "../providers/MockProvider.js";
 
 
 export interface CreateExecutionRequest {
@@ -57,9 +58,7 @@ export interface CreateExecutionRequest {
 }
 
 
-
 export class ExecutionService {
-
 
     private engine =
         new KernelEngine();
@@ -68,6 +67,20 @@ export class ExecutionService {
     private stateManager =
         new RuntimeStateManager();
 
+
+    private provider:
+        AIProvider;
+
+
+    constructor(
+        provider: AIProvider =
+            new MockProvider()
+    ){
+
+        this.provider =
+            provider;
+
+    }
 
 
     create(
@@ -135,12 +148,62 @@ export class ExecutionService {
             ...execution,
 
             status:
-                stored.state as ExecutionState["status"]
+                stored.state as
+                ExecutionState["status"]
 
         };
 
     }
 
+
+    async execute(
+        execution: ExecutionState
+    ): Promise<ExecutionState> {
+
+
+        const result =
+            await this.provider.execute({
+
+                request:
+                    execution.request,
+
+                context:
+                    execution.context,
+
+                projectId:
+                    execution.projectId,
+
+                mode:
+                    execution.mode
+
+            });
+
+
+        const updated: ExecutionState = {
+
+            ...execution,
+
+            result,
+
+            updatedAt:
+                new Date().toISOString()
+
+        };
+
+
+        updateExecution(
+            execution.executionId,
+            {
+                result,
+                updatedAt:
+                    updated.updatedAt
+            }
+        );
+
+
+        return updated;
+
+    }
 
 
     start(
@@ -213,7 +276,6 @@ export class ExecutionService {
     }
 
 
-
     complete(
         execution:ExecutionState
     ):ExecutionState {
@@ -267,7 +329,10 @@ export class ExecutionService {
                     execution.request,
 
                 state:
-                    updated.status
+                    updated.status,
+
+                result:
+                    updated.result
 
             }
 
@@ -282,7 +347,6 @@ export class ExecutionService {
         return updated;
 
     }
-
 
 
     history(

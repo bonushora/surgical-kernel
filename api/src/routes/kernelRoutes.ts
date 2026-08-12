@@ -66,26 +66,45 @@ router.post(
             });
 
 
+        const started =
+            executionService.start(
+                execution
+            );
+
+
+        const executed =
+            await executionService.execute(
+                started
+            );
+
+
+        const completed =
+            executionService.complete(
+                executed
+            );
+
 
         res.json({
 
             executionId:
-                execution.executionId,
+                completed.executionId,
 
             status:
                 "accepted",
 
             mode:
-                execution.mode,
+                completed.mode,
 
             state:
-                execution.status
+                completed.status,
+
+            result:
+                completed.result
 
         });
 
     }
 );
-
 
 
 router.post(

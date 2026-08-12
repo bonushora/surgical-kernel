@@ -2,6 +2,10 @@ import {
     ExecutionContext
 } from "../runtime/context/ExecutionContext.js";
 
+import {
+    ExecutionResult
+} from "../runtime/state/ExecutionResult.js";
+
 export interface Execution {
 
     executionId: string;
@@ -18,6 +22,8 @@ export interface Execution {
 
     createdAt: string;
 
+    result?: ExecutionResult;
+
     updatedAt?: string;
 
 }
@@ -29,6 +35,21 @@ const executions =
 
 
 export function createExecution(
+    execution: Execution
+) {
+
+    executions.set(
+        execution.executionId,
+        execution
+    );
+
+    return execution;
+
+}
+
+
+
+export function restoreExecution(
     execution: Execution
 ) {
 

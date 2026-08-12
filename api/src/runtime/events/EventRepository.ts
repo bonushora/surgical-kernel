@@ -18,6 +18,10 @@ export interface EventRepository {
 
 
 
+    getExecutionIds(): string[];
+
+
+
     clear():void;
 
 }

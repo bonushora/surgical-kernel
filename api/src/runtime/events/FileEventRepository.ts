@@ -10,7 +10,8 @@ import {
     existsSync,
     mkdirSync,
     readFileSync,
-    writeFileSync
+    writeFileSync,
+    readdirSync
 } from "node:fs";
 
 import {
@@ -140,6 +141,35 @@ implements EventRepository {
                 "utf-8"
             )
         );
+
+    }
+
+
+
+    getExecutionIds():string[] {
+
+        const entries =
+            readdirSync(
+                this.directory,
+                {
+                    withFileTypes:true
+                }
+            );
+
+
+        return entries
+            .filter(
+                entry =>
+                    entry.isFile() &&
+                    entry.name.endsWith(".json")
+            )
+            .map(
+                entry =>
+                    entry.name.slice(
+                        0,
+                        -5
+                    )
+            );
 
     }
 

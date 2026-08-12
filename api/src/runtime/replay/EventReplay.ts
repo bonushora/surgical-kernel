@@ -60,6 +60,9 @@ export function replayExecution(
         state:
             last.payload.state,
 
+        result:
+            last.payload.result,
+
         reconstructed:
             true,
 

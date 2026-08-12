@@ -12,10 +12,53 @@ import {
 export class RuntimeStateManager {
 
 
+    private readonly allowedTransitions:
+        Record<
+            ExecutionState["status"],
+            ExecutionState["status"][]
+        > = {
+
+            initialized: [
+                "running",
+                "failed"
+            ],
+
+            running: [
+                "completed",
+                "failed"
+            ],
+
+            completed: [],
+
+            failed: []
+
+        };
+
+
     transition(
         execution: ExecutionState,
         nextStatus: ExecutionState["status"]
     ): ExecutionState {
+
+
+        const allowed =
+            this.allowedTransitions[
+                execution.status
+            ];
+
+
+        if (!allowed.includes(nextStatus)) {
+
+            throw new Error(
+                `Invalid execution state transition: ` +
+                `${execution.status} -> ${nextStatus}`
+            );
+
+        }
+
+
+        const updatedAt =
+            new Date().toISOString();
 
 
         recordTransition(
@@ -32,8 +75,7 @@ export class RuntimeStateManager {
             status:
                 nextStatus,
 
-            updatedAt:
-                new Date().toISOString()
+            updatedAt
 
         };
 

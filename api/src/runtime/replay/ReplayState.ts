@@ -2,6 +2,10 @@ import {
     ExecutionContext
 } from "../context/ExecutionContext.js";
 
+import {
+    ExecutionResult
+} from "../state/ExecutionResult.js";
+
 export interface ReplayState {
 
     executionId:string;
@@ -18,6 +22,8 @@ export interface ReplayState {
     request:string;
 
     state:string;
+
+    result?: ExecutionResult;
 
     reconstructed:boolean;
 

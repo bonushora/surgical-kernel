@@ -2,6 +2,10 @@ import {
     ExecutionContext
 } from "../context/ExecutionContext.js";
 
+import {
+    ExecutionResult
+} from "./ExecutionResult.js";
+
 
 export type ExecutionMode =
     | "free"
@@ -34,5 +38,7 @@ export interface ExecutionState {
     updatedAt: string;
 
     metadata?: Record<string, unknown>;
+
+    result?: ExecutionResult;
 
 }

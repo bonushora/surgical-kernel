@@ -65,6 +65,16 @@ implements EventRepository {
 
 
 
+    getExecutionIds():string[] {
+
+        return Array.from(
+            this.events.keys()
+        );
+
+    }
+
+
+
     clear():void {
 
         this.events.clear();

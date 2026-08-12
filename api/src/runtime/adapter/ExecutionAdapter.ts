@@ -6,6 +6,10 @@ import {
     ExecutionContext
 } from "../context/ExecutionContext.js";
 
+import {
+    ExecutionResult
+} from "../state/ExecutionResult.js";
+
 
 export interface StoreExecution {
 
@@ -22,6 +26,8 @@ export interface StoreExecution {
     state: string;
 
     createdAt: string;
+
+    result?: ExecutionResult;
 
 }
 
@@ -52,7 +58,10 @@ export function toStoreExecution(
             execution.status,
 
         createdAt:
-            execution.createdAt
+            execution.createdAt,
+
+        result:
+            execution.result
 
     };
 

@@ -52,3 +52,11 @@ export function getEvents(
     );
 
 }
+
+
+
+export function getExecutionIds(): string[] {
+
+    return repository.getExecutionIds();
+
+}

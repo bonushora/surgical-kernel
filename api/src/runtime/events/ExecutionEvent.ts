@@ -33,6 +33,8 @@ export interface ExecutionEvent {
 
         state: string;
 
+        result?: import("../state/ExecutionResult.js").ExecutionResult;
+
     };
 
 }
