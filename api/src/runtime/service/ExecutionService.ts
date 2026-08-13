@@ -44,6 +44,14 @@ import {
     ProviderPolicy
 } from "../providers/ProviderPolicy.js";
 
+import {
+    AIProviderRegistry
+} from "../providers/AIProviderRegistry.js";
+
+import {
+    AIProviderResolver
+} from "../providers/AIProviderResolver.js";
+
 export interface CreateExecutionRequest {
 
     executionId: string;
@@ -79,19 +87,70 @@ export class ExecutionService {
         ProviderPolicy;
 
 
-    constructor(
-        provider: AIProvider =
-            new MockProvider(),
+    private registry:
+        AIProviderRegistry;
 
-        providerPolicy: ProviderPolicy =
-            new DeterministicProviderPolicy()
+
+    private resolver:
+        AIProviderResolver;
+
+
+    private providerInjected:
+        boolean;
+
+
+    constructor(
+        provider?: AIProvider,
+
+        providerPolicy?: ProviderPolicy,
+
+        registry?: AIProviderRegistry,
+
+        resolver?: AIProviderResolver
     ){
 
+        this.providerInjected =
+            provider !== undefined;
+
+
         this.provider =
-            provider;
+            provider ??
+            new MockProvider();
+
 
         this.providerPolicy =
-            providerPolicy;
+            providerPolicy ??
+            new DeterministicProviderPolicy();
+
+
+        this.registry =
+            registry ??
+            new AIProviderRegistry();
+
+
+        if (!this.providerInjected) {
+
+            this.registry.register({
+
+                provider:
+                    this.provider.provider,
+
+                model:
+                    this.provider.model,
+
+                implementation:
+                    this.provider
+
+            });
+
+        }
+
+
+        this.resolver =
+            resolver ??
+            new AIProviderResolver(
+                this.registry
+            );
 
     }
 
@@ -313,8 +372,16 @@ export class ExecutionService {
         }
 
 
+        const provider =
+            this.providerInjected
+                ? this.provider
+                : this.resolver.resolve(
+                    decision
+                );
+
+
         const result =
-            await this.provider.execute(
+            await provider.execute(
                 providerRequest
             );
 
