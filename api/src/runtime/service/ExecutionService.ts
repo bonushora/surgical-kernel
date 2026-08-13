@@ -128,7 +128,12 @@ export class ExecutionService {
             new AIProviderRegistry();
 
 
-        if (!this.providerInjected) {
+        if (
+            !this.registry.has(
+                this.provider.provider,
+                this.provider.model
+            )
+        ) {
 
             this.registry.register({
 
@@ -137,6 +142,11 @@ export class ExecutionService {
 
                 model:
                     this.provider.model,
+
+                capabilities:
+                    this.providerInjected
+                        ? []
+                        : ["text-generation"],
 
                 implementation:
                     this.provider
@@ -372,12 +382,135 @@ export class ExecutionService {
         }
 
 
-        const provider =
-            this.providerInjected
-                ? this.provider
-                : this.resolver.resolve(
+        let provider: AIProvider;
+
+        try {
+
+            provider =
+                this.resolver.resolve(
                     decision
                 );
+
+        } catch (
+            error
+        ) {
+
+            const reason =
+                error instanceof Error
+                    ? error.message
+                    : "Provider resolution failed.";
+
+            const failed: ExecutionState = {
+
+                ...execution,
+
+                status:
+                    "failed",
+
+                updatedAt:
+                    new Date().toISOString(),
+
+                result: {
+
+                    output:
+                        `Provider execution denied: ${reason}`,
+
+                    provider:
+                        decision.provider,
+
+                    model:
+                        decision.model,
+
+                    metadata: {
+
+                        governance:
+                            "denied",
+
+                        reason,
+
+                        projectId:
+                            execution.projectId,
+
+                        mode:
+                            execution.mode,
+
+                        organizationId:
+                            execution.context.organizationId,
+
+                        actorId:
+                            execution.context.actorId
+
+                    }
+
+                }
+
+            };
+
+
+            updateExecution(
+                execution.executionId,
+                {
+
+                    state:
+                        failed.status,
+
+                    result:
+                        failed.result,
+
+                    updatedAt:
+                        failed.updatedAt
+
+                }
+            );
+
+
+            const failedEvent: ExecutionEvent = {
+
+                eventId:
+                    crypto.randomUUID(),
+
+                executionId:
+                    execution.executionId,
+
+                type:
+                    "execution.failed",
+
+                timestamp:
+                    new Date().toISOString(),
+
+                payload: {
+
+                    context:
+                        execution.context,
+
+                    projectId:
+                        execution.projectId,
+
+                    mode:
+                        execution.mode,
+
+                    request:
+                        execution.request,
+
+                    state:
+                        failed.status,
+
+                    result:
+                        failed.result
+
+                }
+
+            };
+
+
+            appendEvent(
+                failedEvent
+            );
+
+
+            return failed;
+
+        }
 
 
         const result =

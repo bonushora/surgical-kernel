@@ -80,6 +80,9 @@ registry.register({
     model:
         provider.model,
 
+    capabilities:
+        ["text-generation"],
+
     implementation:
         provider
 

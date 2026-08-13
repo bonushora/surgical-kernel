@@ -5,6 +5,7 @@ import type {
 export interface AIProviderDescriptor {
     provider: string;
     model: string;
+    capabilities: readonly string[];
     implementation: AIProvider;
 }
 
@@ -40,10 +41,10 @@ export class AIProviderRegistry {
 
     }
 
-    resolve(
+    resolveDescriptor(
         provider: string,
         model: string
-    ): AIProvider {
+    ): AIProviderDescriptor {
 
         const key =
             this.createKey(
@@ -62,7 +63,19 @@ export class AIProviderRegistry {
 
         }
 
-        return descriptor.implementation;
+        return descriptor;
+
+    }
+
+    resolve(
+        provider: string,
+        model: string
+    ): AIProvider {
+
+        return this.resolveDescriptor(
+            provider,
+            model
+        ).implementation;
 
     }
 

@@ -53,6 +53,9 @@ registry.register({
     model:
         provider.model,
 
+    capabilities:
+        ["text-generation"],
+
     implementation:
         provider
 });
@@ -190,6 +193,9 @@ try {
 
         model:
             "registry-test-model-v1",
+
+        capabilities:
+            ["text-generation"],
 
         implementation:
             provider

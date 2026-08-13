@@ -10,6 +10,9 @@ export interface ProviderPolicyDecision {
 
     model: string;
 
+    requiredCapabilities?:
+        readonly string[];
+
     reason?: string;
 
 }
@@ -107,6 +110,9 @@ implements ProviderPolicy {
 
                 model:
                     "mock-deterministic-v1",
+
+                requiredCapabilities:
+                    ["text-generation"],
 
                 reason:
                     "Deterministic mock provider explicitly authorized."

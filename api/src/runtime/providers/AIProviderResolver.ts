@@ -31,10 +31,40 @@ export class AIProviderResolver {
 
         }
 
-        return this.registry.resolve(
-            decision.provider,
-            decision.model
-        );
+        const descriptor =
+            this.registry.resolveDescriptor(
+                decision.provider,
+                decision.model
+            );
+
+        const requiredCapabilities =
+            decision.requiredCapabilities ??
+            [];
+
+        const availableCapabilities =
+            new Set(
+                descriptor.capabilities
+            );
+
+        const missingCapabilities =
+            requiredCapabilities.filter(
+                capability =>
+                    !availableCapabilities.has(
+                        capability
+                    )
+            );
+
+        if (
+            missingCapabilities.length > 0
+        ) {
+
+            throw new Error(
+                `AI provider capability denied: ${missingCapabilities.join(", ")}`
+            );
+
+        }
+
+        return descriptor.implementation;
 
     }
 

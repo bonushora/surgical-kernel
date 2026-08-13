@@ -67,9 +67,40 @@ const provider =
     new TestProvider();
 
 
+const providerPolicy = {
+
+    authorize(
+        context: any
+    ) {
+
+        return {
+
+            allowed:
+                true,
+
+            provider:
+                "test-provider",
+
+            model:
+                "test-model-v1",
+
+            requiredCapabilities:
+                [],
+
+            reason:
+                "Lifecycle test provider explicitly authorized."
+
+        };
+
+    }
+
+};
+
+
 const service =
     new ExecutionService(
-        provider
+        provider,
+        providerPolicy
     );
 
 
