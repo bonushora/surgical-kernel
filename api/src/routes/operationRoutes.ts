@@ -19,6 +19,14 @@ import {
     createOperationErrorResponse
 } from "../runtime/operation/OperationError.js";
 
+import {
+    IdempotencyRegistry
+} from "../runtime/operation/IdempotencyRegistry.js";
+
+import {
+    createOperationFingerprint
+} from "../runtime/operation/OperationFingerprint.js";
+
 
 const router =
     Router();
@@ -26,6 +34,10 @@ const router =
 
 const executionService =
     new ExecutionService();
+
+
+const idempotencyRegistry =
+    new IdempotencyRegistry();
 
 
 router.post(
@@ -106,6 +118,118 @@ router.post(
 
         try {
 
+            if (idempotencyKey) {
+
+                const fingerprint =
+                    createOperationFingerprint({
+
+                        context:
+                            input.context,
+
+                        mode:
+                            input.mode,
+
+                        request:
+                            input.request
+
+                    });
+
+
+                const idempotency =
+                    idempotencyRegistry.begin(
+
+                        [
+                            input.context.organizationId,
+                            input.context.projectId,
+                            idempotencyKey
+                        ].join(":"),
+
+                        fingerprint,
+
+                        operationId,
+
+                        correlationId
+
+                    );
+
+
+                if (
+                    idempotency.kind ===
+                    "conflict"
+                ) {
+
+                    return res.status(409)
+                        .json(
+                            createOperationErrorResponse({
+
+                                code:
+                                    "IDEMPOTENCY_CONFLICT",
+
+                                message:
+                                    "Idempotency key was already used for a different operation.",
+
+                                operationId,
+
+                                correlationId,
+
+                                details: {
+
+                                    existingOperationId:
+                                        idempotency.record.operationId,
+
+                                    existingCorrelationId:
+                                        idempotency.record.correlationId
+
+                                }
+
+                            })
+                        );
+
+                }
+
+
+                if (
+                    idempotency.kind ===
+                    "existing"
+                ) {
+
+                    if (
+                        idempotency.record.response
+                    ) {
+
+                        return res.json(
+                            idempotency.record.response
+                        );
+
+                    }
+
+
+                    return res.status(409)
+                        .json(
+                            createOperationErrorResponse({
+
+                                code:
+                                    "IDEMPOTENCY_CONFLICT",
+
+                                message:
+                                    "An operation with this idempotency key is already in progress.",
+
+                                operationId:
+
+                                    idempotency.record.operationId,
+
+                                correlationId:
+
+                                    idempotency.record.correlationId
+
+                            })
+                        );
+
+                }
+
+            }
+
+
             const execution =
                 executionService.create({
 
@@ -172,11 +296,42 @@ router.post(
             };
 
 
+            if (idempotencyKey) {
+
+                idempotencyRegistry.complete(
+
+                    [
+                        input.context.organizationId,
+                        input.context.projectId,
+                        idempotencyKey
+                    ].join(":"),
+
+                    response
+
+                );
+
+            }
+
+
             return res.json(
                 response
             );
 
         } catch (error) {
+
+            if (idempotencyKey) {
+
+                idempotencyRegistry.fail(
+
+                    [
+                        input.context.organizationId,
+                        input.context.projectId,
+                        idempotencyKey
+                    ].join(":")
+
+                );
+
+            }
 
             return res.status(500)
                 .json(
