@@ -31,6 +31,10 @@ import {
     DeterministicOperationAuthorizationPolicy
 } from "../runtime/authorization/OperationAuthorization.js";
 
+import {
+    appendAuthorizationAudit
+} from "../runtime/audit/AuthorizationAuditStore.js";
+
 
 const router =
     Router();
@@ -137,6 +141,49 @@ router.post(
                     input.request
 
             });
+
+
+        appendAuthorizationAudit({
+
+            auditId:
+                crypto.randomUUID(),
+
+            type:
+                "authorization.decision",
+
+            timestamp:
+                new Date().toISOString(),
+
+            operationId,
+
+            correlationId,
+
+            decisionId:
+                authorizationDecision.decisionId,
+
+            organizationId:
+                authorizationDecision.organizationId,
+
+            projectId:
+                authorizationDecision.projectId,
+
+            actorId:
+                authorizationDecision.actorId,
+
+            mode:
+                input.mode,
+
+            decision:
+                authorizationDecision.allowed
+                    ? "allowed"
+                    : "denied",
+
+            reason:
+                authorizationDecision.reason,
+
+            idempotencyKey
+
+        });
 
 
         if (

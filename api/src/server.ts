@@ -5,6 +5,9 @@ import kernelRoutes from "./routes/kernelRoutes.js";
 
 import operationRoutes from "./routes/operationRoutes.js";
 
+import authorizationAuditRoutes
+    from "./routes/authorizationAuditRoutes.js";
+
 import {
     recoverExecutions
 } from "./runtime/recovery/ExecutionRecovery.js";
@@ -55,6 +58,12 @@ app.use(
 
 
 app.use(
+    "/v1",
+    authorizationAuditRoutes
+);
+
+
+app.use(
     "/kernel",
     kernelRoutes
 );
@@ -70,6 +79,9 @@ const PORT =
         process.env.PORT ??
         8080
     );
+
+
+export default app;
 
 
 app.listen(
