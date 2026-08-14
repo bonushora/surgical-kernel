@@ -165,7 +165,9 @@ try {
 
 
     if (
-        duplicateCompleted.record.response?.executionId !==
+        !duplicateCompleted.record.response ||
+        !("executionId" in duplicateCompleted.record.response.body) ||
+        duplicateCompleted.record.response.body.executionId !==
         "execution-001"
     ) {
 

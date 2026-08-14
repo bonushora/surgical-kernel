@@ -19,10 +19,10 @@ import {
 import type {
     ExecutionContext,
     ExecutionMode,
-    ExecutionRequest,
-    ExecutionResponse,
     ExecutionRole,
-    ExecutionStatus
+    ExecutionStatus,
+    OperationRequest,
+    OperationResponse
 } from "../../src/index";
 
 
@@ -73,13 +73,13 @@ describe(
 
 
         it(
-            "should expose the public execution request contract",
+            "should expose the public operation request contract",
             () => {
 
                 const mode: ExecutionMode =
                     "deterministic";
 
-                const request: ExecutionRequest = {
+                const request: OperationRequest = {
 
                     context: {
 
@@ -97,9 +97,6 @@ describe(
 
                     },
 
-                    projectId:
-                        "project-001",
-
                     mode,
 
                     request:
@@ -107,7 +104,7 @@ describe(
 
                 };
 
-                expect(request.projectId)
+                expect(request.context.projectId)
                     .toBe("project-001");
 
                 expect(request.mode)
@@ -121,13 +118,13 @@ describe(
 
 
         it(
-            "should expose the public execution response contract",
+            "should expose the public operation response contract",
             () => {
 
                 const state: ExecutionStatus =
                     "initialized";
 
-                const response: ExecutionResponse = {
+                const response: OperationResponse = {
 
                     executionId:
                         "exec-001",
@@ -195,10 +192,10 @@ describe(
 
 
         it(
-            "should execute SurgicalKernelClient against the public /execute contract",
+            "should execute SurgicalKernelClient against the public /v1/operations contract",
             async () => {
 
-                const responsePayload: ExecutionResponse = {
+                const responsePayload: OperationResponse = {
 
                     executionId:
                         "exec-sdk-001",
@@ -244,7 +241,7 @@ describe(
                     );
 
 
-                const request: ExecutionRequest = {
+                const request: OperationRequest = {
 
                     context: {
 
@@ -289,7 +286,7 @@ describe(
                     fetchMock
                 ).toHaveBeenCalledWith(
 
-                    "http://localhost:3000/api/execute",
+                    "http://localhost:3000/api/v1/operations",
 
                     expect.objectContaining({
 

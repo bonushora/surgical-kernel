@@ -3,18 +3,15 @@ import type {
 }
 from "./ExecutionContext";
 
-
 import type {
     ExecutionMode
 }
 from "./ExecutionMode";
 
 
-export interface ExecutionRequest {
+export interface OperationRequest {
 
     context: ExecutionContext;
-
-    projectId: string;
 
     mode: ExecutionMode;
 

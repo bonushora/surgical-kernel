@@ -308,9 +308,26 @@ router.post(
                         idempotency.record.response
                     ) {
 
-                        return res.json(
-                            idempotency.record.response
+                        const terminalResponse =
+                            idempotency.record.response;
+
+                        res.setHeader(
+                            OPERATION_HEADERS.operationId,
+                            idempotency.record.operationId
                         );
+
+                        res.setHeader(
+                            OPERATION_HEADERS.correlationId,
+                            idempotency.record.correlationId
+                        );
+
+                        return res
+                            .status(
+                                terminalResponse.status
+                            )
+                            .json(
+                                terminalResponse.body
+                            );
 
                     }
 
@@ -430,6 +447,30 @@ router.post(
 
         } catch (error) {
 
+            const failureResponse =
+                createOperationErrorResponse({
+
+                    code:
+                        "EXECUTION_FAILED",
+
+                    message:
+                        error instanceof Error
+                            ? error.message
+                            : "Operation execution failed.",
+
+                    operationId,
+
+                    correlationId,
+
+                    details:
+                        idempotencyKey
+                            ? {
+                                idempotencyKey
+                            }
+                            : undefined
+
+                });
+
             if (idempotencyKey) {
 
                 idempotencyRegistry.fail(
@@ -438,36 +479,18 @@ router.post(
                         input.context.organizationId,
                         input.context.projectId,
                         idempotencyKey
-                    ].join(":")
+                    ].join(":"),
+
+                    failureResponse
 
                 );
 
             }
 
-            return res.status(500)
+            return res
+                .status(500)
                 .json(
-                    createOperationErrorResponse({
-
-                        code:
-                            "EXECUTION_FAILED",
-
-                        message:
-                            error instanceof Error
-                                ? error.message
-                                : "Operation execution failed.",
-
-                        operationId,
-
-                        correlationId,
-
-                        details:
-                            idempotencyKey
-                                ? {
-                                    idempotencyKey
-                                }
-                                : undefined
-
-                    })
+                    failureResponse
                 );
 
         }

@@ -1,13 +1,23 @@
 import type {
-    ExecutionRequest
+    OperationRequest
 }
-from "../contracts/ExecutionRequest";
-
+from "../contracts/OperationRequest";
 
 import type {
-    ExecutionResponse
+    OperationResponse
 }
-from "../contracts/ExecutionResponse";
+from "../contracts/OperationResponse";
+
+
+export interface OperationOptions {
+
+    operationId?: string;
+
+    correlationId?: string;
+
+    idempotencyKey?: string;
+
+}
 
 
 export class SurgicalKernelClient {
@@ -18,29 +28,72 @@ export class SurgicalKernelClient {
     ){}
 
 
-
     async execute(
-        request:ExecutionRequest
-    ):Promise<ExecutionResponse>{
+        request:OperationRequest,
+        options:OperationOptions = {}
+    ):Promise<OperationResponse>{
+
+
+        const headers: Record<string,string> = {
+
+            "Content-Type":
+                "application/json"
+
+        };
+
+
+        if (
+            options.operationId
+        ) {
+
+            headers[
+                "x-operation-id"
+            ] =
+                options.operationId;
+
+        }
+
+
+        if (
+            options.correlationId
+        ) {
+
+            headers[
+                "x-correlation-id"
+            ] =
+                options.correlationId;
+
+        }
+
+
+        if (
+            options.idempotencyKey
+        ) {
+
+            headers[
+                "idempotency-key"
+            ] =
+                options.idempotencyKey;
+
+        }
 
 
         const response =
-        await fetch(
-            `${this.endpoint}/execute`,
-            {
+            await fetch(
+                `${this.endpoint}/v1/operations`,
+                {
 
-                method:"POST",
+                    method:"POST",
 
-                headers:{
-                    "Content-Type":
-                    "application/json"
-                },
+                    headers,
 
-                body:
-                JSON.stringify(request)
+                    body:
+                        JSON.stringify(
+                            request
+                        )
 
-            }
-        );
+                }
+            );
 
 
         return await response.json();

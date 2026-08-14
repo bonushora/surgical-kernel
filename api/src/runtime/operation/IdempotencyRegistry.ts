@@ -1,10 +1,13 @@
 import type {
-    OperationResponse
+    OperationResponse,
+    OperationErrorResponse
 } from "./OperationContract.js";
+
 
 import {
     FileIdempotencyRepository
 } from "./FileIdempotencyRepository.js";
+
 
 import type {
     IdempotencyRepository
@@ -15,6 +18,17 @@ export type IdempotencyState =
     | "pending"
     | "completed"
     | "failed";
+
+
+export type IdempotencyTerminalResponse =
+    | {
+        status: number;
+        body: OperationResponse;
+    }
+    | {
+        status: number;
+        body: OperationErrorResponse;
+    };
 
 
 export interface IdempotencyRecord {
@@ -29,7 +43,8 @@ export interface IdempotencyRecord {
 
     state: IdempotencyState;
 
-    response?: OperationResponse;
+    response?:
+        IdempotencyTerminalResponse;
 
 }
 
@@ -122,7 +137,9 @@ export class IdempotencyRegistry {
                     error.code === "EEXIST"
                 )
             ) {
+
                 throw error;
+
             }
 
         }
@@ -201,7 +218,15 @@ export class IdempotencyRegistry {
             state:
                 "completed",
 
-            response
+            response: {
+
+                status:
+                    200,
+
+                body:
+                    response
+
+            }
 
         });
 
@@ -209,7 +234,8 @@ export class IdempotencyRegistry {
 
 
     fail(
-        key: string
+        key: string,
+        response: OperationErrorResponse
     ): void {
 
         const record =
@@ -230,7 +256,17 @@ export class IdempotencyRegistry {
             ...record,
 
             state:
-                "failed"
+                "failed",
+
+            response: {
+
+                status:
+                    500,
+
+                body:
+                    response
+
+            }
 
         });
 

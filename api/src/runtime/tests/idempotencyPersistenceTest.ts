@@ -162,7 +162,9 @@ try {
 
 
     if (
-        reconstructed.record.response?.executionId !==
+        !reconstructed.record.response ||
+        !("executionId" in reconstructed.record.response.body) ||
+        reconstructed.record.response.body.executionId !==
         "execution-persistence-001"
     ) {
 

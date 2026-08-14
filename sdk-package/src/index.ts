@@ -3,6 +3,11 @@ export {
 }
 from "./client/SurgicalKernelClient";
 
+export type {
+    OperationOptions
+}
+from "./client/SurgicalKernelClient";
+
 
 export {
     KernelRuntime
@@ -47,18 +52,6 @@ from "./runtime/plugins/PluginManager";
 
 
 export type {
-    ExecutionRequest
-}
-from "./contracts/ExecutionRequest";
-
-
-export type {
-    ExecutionResponse
-}
-from "./contracts/ExecutionResponse";
-
-
-export type {
     ExecutionContext,
     ExecutionRole
 }
@@ -81,3 +74,14 @@ export type {
     KernelRuntimeConfig
 }
 from "./runtime/KernelRuntime";
+
+export type {
+    OperationRequest
+}
+from "./contracts/OperationRequest";
+
+export type {
+    OperationResponse,
+    OperationStatus
+}
+from "./contracts/OperationResponse";

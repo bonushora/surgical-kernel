@@ -9,26 +9,34 @@ interface ExecutionContext {
 
 type ExecutionMode = "free" | "deterministic";
 
-interface ExecutionRequest {
+interface OperationRequest {
     context: ExecutionContext;
-    projectId: string;
     mode: ExecutionMode;
     request: string;
 }
 
 type ExecutionStatus = "initialized" | "running" | "completed" | "failed";
 
-interface ExecutionResponse {
+type OperationStatus = "accepted" | "completed" | "failed";
+interface OperationResponse {
+    operationId: string;
+    correlationId: string;
     executionId: string;
-    status: "accepted";
-    mode: ExecutionMode;
+    status: OperationStatus;
     state: ExecutionStatus;
+    mode: ExecutionMode;
+    result?: Record<string, unknown>;
 }
 
+interface OperationOptions {
+    operationId?: string;
+    correlationId?: string;
+    idempotencyKey?: string;
+}
 declare class SurgicalKernelClient {
     private endpoint;
     constructor(endpoint: string);
-    execute(request: ExecutionRequest): Promise<ExecutionResponse>;
+    execute(request: OperationRequest, options?: OperationOptions): Promise<OperationResponse>;
 }
 
 interface HttpTransportConfig {
@@ -122,4 +130,4 @@ declare class PluginManager {
     getPlugins(): Plugin[];
 }
 
-export { AuthProvider, type ExecutionContext, type ExecutionMode, type ExecutionRequest, type ExecutionResponse, type ExecutionRole, type ExecutionStatus, HttpTransport, KernelRuntime, type KernelRuntimeConfig, MiddlewarePipeline, PluginManager, RetryPolicy, SurgicalKernelClient, Telemetry };
+export { AuthProvider, type ExecutionContext, type ExecutionMode, type ExecutionRole, type ExecutionStatus, HttpTransport, KernelRuntime, type KernelRuntimeConfig, MiddlewarePipeline, type OperationOptions, type OperationRequest, type OperationResponse, type OperationStatus, PluginManager, RetryPolicy, SurgicalKernelClient, Telemetry };

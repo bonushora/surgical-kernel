@@ -4,6 +4,7 @@ import type {
     AIProviderResponse
 } from "./AIProvider.js";
 
+
 export class MockProvider
     implements AIProvider {
 
@@ -17,6 +18,18 @@ export class MockProvider
     async execute(
         input: AIProviderRequest
     ): Promise<AIProviderResponse> {
+
+        if (
+            process.env.SURGICAL_TEST_FORCE_FAILURE ===
+            "true"
+        ) {
+
+            throw new Error(
+                "Forced provider failure for deterministic test."
+            );
+
+        }
+
 
         return {
 
