@@ -88,6 +88,9 @@ const resolver =
 const compatibleDecision:
     ProviderPolicyDecision = {
 
+    decisionId:
+        "capability-governance-compatible",
+
     allowed:
         true,
 
@@ -130,6 +133,9 @@ if (
  */
 const multiCapabilityDecision:
     ProviderPolicyDecision = {
+
+    decisionId:
+        "capability-governance-multi-capability",
 
     allowed:
         true,
@@ -180,6 +186,9 @@ let missingCapabilityBlocked =
 try {
 
     resolver.resolve({
+
+        decisionId:
+            "capability-governance-missing-capability",
 
         allowed:
             true,
@@ -232,6 +241,9 @@ let mixedCapabilityBlocked =
 try {
 
     resolver.resolve({
+
+        decisionId:
+            "capability-governance-mixed-capability",
 
         allowed:
             true,
@@ -287,6 +299,9 @@ let deniedBlocked =
 try {
 
     resolver.resolve({
+
+        decisionId:
+            "capability-governance-denied",
 
         allowed:
             false,

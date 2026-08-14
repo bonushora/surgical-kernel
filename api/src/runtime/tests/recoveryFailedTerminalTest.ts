@@ -60,6 +60,9 @@ class DenyPolicy implements ProviderPolicy {
 
         return {
 
+            decisionId:
+                "recovery-failed-terminal-deny",
+
             allowed:
                 false,
 

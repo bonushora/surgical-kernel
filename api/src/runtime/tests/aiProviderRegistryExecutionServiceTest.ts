@@ -100,6 +100,9 @@ const policy:
 
         return {
 
+            decisionId:
+                "registry-execution-integration",
+
             allowed:
                 true,
 

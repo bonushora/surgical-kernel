@@ -62,6 +62,9 @@ class AllowPolicy
 
         return {
 
+            decisionId:
+                "runtime-failure-governance",
+
             allowed:
                 true,
 

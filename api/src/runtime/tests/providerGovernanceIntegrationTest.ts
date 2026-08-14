@@ -66,6 +66,9 @@ class DenyPolicy implements ProviderPolicy {
 
         return {
 
+            decisionId:
+                "provider-governance-deny",
+
             allowed:
                 false,
 
@@ -91,6 +94,9 @@ class AllowPolicy implements ProviderPolicy {
     ): ProviderPolicyDecision {
 
         return {
+
+            decisionId:
+                "provider-governance-allow",
 
             allowed:
                 true,

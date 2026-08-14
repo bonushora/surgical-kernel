@@ -81,6 +81,9 @@ const resolver =
 const allowedDecision:
 ProviderPolicyDecision = {
 
+    decisionId:
+        "registry-resolver-allowed",
+
     allowed:
         true,
 
@@ -115,6 +118,9 @@ let deniedBlocked =
 try {
 
     resolver.resolve({
+
+        decisionId:
+            "registry-resolver-denied",
 
         allowed:
             false,
@@ -151,6 +157,9 @@ let missingBlocked =
 try {
 
     resolver.resolve({
+
+        decisionId:
+            "registry-resolver-missing-provider",
 
         allowed:
             true,

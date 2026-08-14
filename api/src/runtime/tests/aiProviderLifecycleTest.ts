@@ -75,6 +75,9 @@ const providerPolicy = {
 
         return {
 
+            decisionId:
+                "ai-provider-lifecycle",
+
             allowed:
                 true,
 

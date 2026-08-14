@@ -1,8 +1,12 @@
+import { randomUUID } from "node:crypto";
+
 import type {
     AIProviderRequest
 } from "./AIProvider.js";
 
 export interface ProviderPolicyDecision {
+
+    decisionId: string;
 
     allowed: boolean;
 
@@ -38,6 +42,9 @@ implements ProviderPolicy {
 
             return {
 
+                decisionId:
+                    randomUUID(),
+
                 allowed: false,
 
                 provider:
@@ -58,6 +65,9 @@ implements ProviderPolicy {
         ) {
 
             return {
+
+                decisionId:
+                    randomUUID(),
 
                 allowed: false,
 
@@ -81,6 +91,9 @@ implements ProviderPolicy {
 
             return {
 
+                decisionId:
+                    randomUUID(),
+
                 allowed: false,
 
                 provider:
@@ -103,6 +116,9 @@ implements ProviderPolicy {
 
             return {
 
+                decisionId:
+                    randomUUID(),
+
                 allowed: true,
 
                 provider:
@@ -122,6 +138,9 @@ implements ProviderPolicy {
         }
 
         return {
+
+            decisionId:
+                randomUUID(),
 
             allowed: false,
 

@@ -58,6 +58,9 @@ class CapabilityAllowPolicy
 
         return {
 
+            decisionId:
+                "injected-capability-allow",
+
             allowed:
                 true,
 
@@ -89,6 +92,9 @@ class DenyPolicy
     ): ProviderPolicyDecision {
 
         return {
+
+            decisionId:
+                "injected-capability-deny",
 
             allowed:
                 false,
