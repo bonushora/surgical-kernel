@@ -27,6 +27,10 @@ import {
     createOperationFingerprint
 } from "../runtime/operation/OperationFingerprint.js";
 
+import {
+    DeterministicOperationAuthorizationPolicy
+} from "../runtime/authorization/OperationAuthorization.js";
+
 
 const router =
     Router();
@@ -38,6 +42,10 @@ const executionService =
 
 const idempotencyRegistry =
     new IdempotencyRegistry();
+
+
+const authorizationPolicy =
+    new DeterministicOperationAuthorizationPolicy();
 
 
 router.post(
@@ -109,6 +117,62 @@ router.post(
                         operationId,
 
                         correlationId
+
+                    })
+                );
+
+        }
+
+
+        const authorizationDecision =
+            authorizationPolicy.authorize({
+
+                context:
+                    input.context,
+
+                mode:
+                    input.mode,
+
+                request:
+                    input.request
+
+            });
+
+
+        if (
+            !authorizationDecision.allowed
+        ) {
+
+            return res.status(403)
+                .json(
+                    createOperationErrorResponse({
+
+                        code:
+                            "FORBIDDEN",
+
+                        message:
+                            authorizationDecision.reason ??
+                            "Operation authorization failed.",
+
+                        operationId,
+
+                        correlationId,
+
+                        details: {
+
+                            decisionId:
+                                authorizationDecision.decisionId,
+
+                            organizationId:
+                                authorizationDecision.organizationId,
+
+                            projectId:
+                                authorizationDecision.projectId,
+
+                            actorId:
+                                authorizationDecision.actorId
+
+                        }
 
                     })
                 );
