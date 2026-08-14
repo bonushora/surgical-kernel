@@ -11,6 +11,10 @@ import {
     mkdirSync,
     readFileSync,
     writeFileSync,
+    renameSync,
+    openSync,
+    fsyncSync,
+    closeSync,
     readdirSync
 } from "node:fs";
 
@@ -53,9 +57,17 @@ implements EventRepository {
     private directory =
         defaultDirectory;
 
+    private crashHook:
+        () => void;
 
 
-    constructor(){
+
+    constructor(
+        crashHook: () => void = () => {}
+    ){
+
+        this.crashHook =
+            crashHook;
 
         if(!existsSync(this.directory)){
 
@@ -101,13 +113,52 @@ implements EventRepository {
         );
 
 
-        writeFileSync(
-            file,
+        const temporaryFile =
+            `${file}.tmp`;
+
+
+        const serialized =
             JSON.stringify(
                 events,
                 null,
                 2
-            )
+            );
+
+
+        writeFileSync(
+            temporaryFile,
+            serialized,
+            "utf-8"
+        );
+
+
+        const descriptor =
+            openSync(
+                temporaryFile,
+                "r"
+            );
+
+        try {
+
+            fsyncSync(
+                descriptor
+            );
+
+        } finally {
+
+            closeSync(
+                descriptor
+            );
+
+        }
+
+
+        this.crashHook();
+
+
+        renameSync(
+            temporaryFile,
+            file
         );
 
 
