@@ -27,6 +27,27 @@ app.use(cors());
 app.use(express.json());
 
 
+app.get(
+    "/health",
+    (_req, res) => {
+
+        res.status(200).json({
+
+            status:
+                "ok",
+
+            service:
+                "surgical-kernel",
+
+            version:
+                "0.1.1"
+
+        });
+
+    }
+);
+
+
 app.use(
     "/v1",
     operationRoutes
@@ -44,7 +65,11 @@ app.use(
 kernelRoutes
 );
 
-const PORT = 8080;
+const PORT =
+    Number(
+        process.env.PORT ??
+        8080
+    );
 
 
 app.listen(

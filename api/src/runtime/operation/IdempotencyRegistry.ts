@@ -2,6 +2,14 @@ import type {
     OperationResponse
 } from "./OperationContract.js";
 
+import {
+    FileIdempotencyRepository
+} from "./FileIdempotencyRepository.js";
+
+import type {
+    IdempotencyRepository
+} from "./IdempotencyRepository.js";
+
 
 export type IdempotencyState =
     | "pending"
@@ -43,8 +51,20 @@ export type IdempotencyBeginResult =
 
 export class IdempotencyRegistry {
 
-    private readonly records =
-        new Map<string, IdempotencyRecord>();
+    private readonly repository:
+        IdempotencyRepository;
+
+
+    constructor(
+        repository:
+            IdempotencyRepository =
+            new FileIdempotencyRepository()
+    ) {
+
+        this.repository =
+            repository;
+
+    }
 
 
     begin(
@@ -54,44 +74,71 @@ export class IdempotencyRegistry {
         correlationId: string
     ): IdempotencyBeginResult {
 
+        const record: IdempotencyRecord = {
+
+            key,
+
+            fingerprint,
+
+            operationId,
+
+            correlationId,
+
+            state:
+                "pending"
+
+        };
+
+
+        try {
+
+            const created =
+                this.repository.createIfAbsent(
+                    record
+                );
+
+
+            if (
+                created
+            ) {
+
+                return {
+
+                    kind:
+                        "new",
+
+                    record
+
+                };
+
+            }
+
+        } catch (error) {
+
+            if (
+                !(
+                    error instanceof Error &&
+                    "code" in error &&
+                    error.code === "EEXIST"
+                )
+            ) {
+                throw error;
+            }
+
+        }
+
+
         const existing =
-            this.records.get(
+            this.repository.get(
                 key
             );
 
 
         if (!existing) {
 
-            const record: IdempotencyRecord = {
-
-                key,
-
-                fingerprint,
-
-                operationId,
-
-                correlationId,
-
-                state:
-                    "pending"
-
-            };
-
-
-            this.records.set(
-                key,
-                record
+            throw new Error(
+                `Idempotency record could not be resolved after concurrent creation: ${key}`
             );
-
-
-            return {
-
-                kind:
-                    "new",
-
-                record
-
-            };
 
         }
 
@@ -133,7 +180,7 @@ export class IdempotencyRegistry {
     ): void {
 
         const record =
-            this.records.get(
+            this.repository.get(
                 key
             );
 
@@ -147,20 +194,16 @@ export class IdempotencyRegistry {
         }
 
 
-        this.records.set(
-            key,
-            {
+        this.repository.save({
 
-                ...record,
+            ...record,
 
-                state:
-                    "completed",
+            state:
+                "completed",
 
-                response
+            response
 
-            }
-
-        );
+        });
 
     }
 
@@ -170,7 +213,7 @@ export class IdempotencyRegistry {
     ): void {
 
         const record =
-            this.records.get(
+            this.repository.get(
                 key
             );
 
@@ -182,18 +225,14 @@ export class IdempotencyRegistry {
         }
 
 
-        this.records.set(
-            key,
-            {
+        this.repository.save({
 
-                ...record,
+            ...record,
 
-                state:
-                    "failed"
+            state:
+                "failed"
 
-            }
-
-        );
+        });
 
     }
 
@@ -202,7 +241,7 @@ export class IdempotencyRegistry {
         key: string
     ): IdempotencyRecord | undefined {
 
-        return this.records.get(
+        return this.repository.get(
             key
         );
 
@@ -211,7 +250,7 @@ export class IdempotencyRegistry {
 
     clear(): void {
 
-        this.records.clear();
+        this.repository.clear();
 
     }
 
