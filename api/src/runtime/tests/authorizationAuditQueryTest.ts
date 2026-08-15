@@ -246,7 +246,7 @@ console.log(
 
 const appModule =
     await import(
-        "../../server.js"
+        "../../app.js"
     );
 
 
