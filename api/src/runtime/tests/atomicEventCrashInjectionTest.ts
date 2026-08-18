@@ -184,7 +184,7 @@ try {
         );
 
 
-        appendEvent(
+        await appendEvent(
             eventTwo
         );
 
@@ -201,13 +201,13 @@ try {
     );
 
 
-    appendEvent(
+    await appendEvent(
         eventOne
     );
 
 
     const beforeCrash =
-        getEvents(
+        await getEvents(
             executionId
         );
 
@@ -273,7 +273,7 @@ try {
 
 
     const afterCrash =
-        getEvents(
+        await getEvents(
             executionId
         );
 
@@ -340,7 +340,7 @@ try {
 
 
     const afterCleanup =
-        getEvents(
+        await getEvents(
             executionId
         );
 

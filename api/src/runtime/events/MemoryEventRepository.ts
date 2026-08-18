@@ -18,9 +18,9 @@ implements EventRepository {
 
 
 
-    append(
+    async append(
         event: ExecutionEvent
-    ): ExecutionEvent {
+    ): Promise<ExecutionEvent> {
 
 
         const current =
@@ -48,9 +48,9 @@ implements EventRepository {
 
 
 
-    getEvents(
+    async getEvents(
         executionId:string
-    ):ExecutionEvent[] {
+    ):Promise<ExecutionEvent[]> {
 
 
         return (
@@ -65,7 +65,7 @@ implements EventRepository {
 
 
 
-    getExecutionIds():string[] {
+    async getExecutionIds():Promise<string[]> {
 
         return Array.from(
             this.events.keys()
@@ -75,7 +75,7 @@ implements EventRepository {
 
 
 
-    clear():void {
+    async clear():Promise<void> {
 
         this.events.clear();
 

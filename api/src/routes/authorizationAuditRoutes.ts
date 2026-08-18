@@ -260,7 +260,7 @@ router.get(
 
 
         const audits =
-            queryAuthorizationAudits(
+            await queryAuthorizationAudits(
                 scopedQuery
             );
 

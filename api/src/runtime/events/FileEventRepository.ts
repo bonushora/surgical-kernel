@@ -84,9 +84,9 @@ implements EventRepository {
 
 
 
-    append(
+    async append(
         event:ExecutionEvent
-    ):ExecutionEvent {
+    ):Promise<ExecutionEvent> {
 
         const file =
             join(
@@ -168,9 +168,9 @@ implements EventRepository {
 
 
 
-    getEvents(
+    async getEvents(
         executionId:string
-    ):ExecutionEvent[] {
+    ):Promise<ExecutionEvent[]> {
 
         const file =
             join(
@@ -197,7 +197,7 @@ implements EventRepository {
 
 
 
-    getExecutionIds():string[] {
+    async getExecutionIds():Promise<string[]> {
 
         const entries =
             readdirSync(
@@ -226,6 +226,6 @@ implements EventRepository {
 
 
 
-    clear():void {}
+    async clear():Promise<void> {}
 
 }

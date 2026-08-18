@@ -9,13 +9,13 @@ import {
 
 
 
-export function replayExecution(
+export async function replayExecution(
     executionId:string
-):ReplayState | null {
+):Promise<ReplayState | null> {
 
 
     const events =
-        getEvents(
+        await getEvents(
             executionId
         );
 

@@ -199,7 +199,7 @@ const deniedService =
     );
 
 const deniedExecution =
-deniedService.create(
+await deniedService.create(
 createRequest("deterministic")
 );
 
@@ -236,7 +236,7 @@ deniedProvider.calls === 0,
 
 
 const deniedEvents =
-getEvents(
+await getEvents(
     deniedExecution.executionId
 );
 
@@ -279,7 +279,7 @@ deniedEvents[1].payload.result?.metadata?.governance ===
 );
 
 const deniedReplay =
-replayExecution(
+await replayExecution(
     deniedExecution.executionId
 );
 
@@ -340,7 +340,7 @@ const allowedService =
     );
 
 const allowedExecution =
-    allowedService.create(
+    await allowedService.create(
         createRequest("deterministic")
     );
 
@@ -391,7 +391,7 @@ const freeService =
     );
 
 const freeExecution =
-    freeService.create(
+    await freeService.create(
         createRequest("free")
     );
 

@@ -9,7 +9,7 @@ const service =
 
 
 const execution =
-    service.create({
+    await service.create({
 
         executionId:
             crypto.randomUUID(),
@@ -49,7 +49,7 @@ console.log(
 
 
 const running =
-    service.start(
+    await service.start(
         execution
     );
 
@@ -62,7 +62,7 @@ console.log(
 
 
 const completed =
-    service.complete(
+    await service.complete(
         running
     );
 

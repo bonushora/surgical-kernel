@@ -19,9 +19,9 @@ implements AuthorizationAuditRepository {
         AuthorizationAuditEvent[] = [];
 
 
-    append(
+    async append(
         event: AuthorizationAuditEvent
-    ): AuthorizationAuditEvent {
+    ): Promise<AuthorizationAuditEvent> {
 
         this.events.push(
             event
@@ -32,9 +32,9 @@ implements AuthorizationAuditRepository {
     }
 
 
-    getByOperationId(
+    async getByOperationId(
         operationId: string
-    ): AuthorizationAuditEvent[] {
+    ): Promise<AuthorizationAuditEvent[]> {
 
         return this.events
             .filter(
@@ -46,9 +46,9 @@ implements AuthorizationAuditRepository {
     }
 
 
-    query(
+    async query(
         query: AuthorizationAuditQuery
-    ): AuthorizationAuditEvent[] {
+    ): Promise<AuthorizationAuditEvent[]> {
 
         return this.events
             .filter(
@@ -68,7 +68,7 @@ implements AuthorizationAuditRepository {
     }
 
 
-    getAll(): AuthorizationAuditEvent[] {
+    async getAll(): Promise<AuthorizationAuditEvent[]> {
 
         return [
             ...this.events
@@ -82,7 +82,7 @@ implements AuthorizationAuditRepository {
     }
 
 
-    clear(): void {
+    async clear(): Promise<void> {
 
         this.events = [];
 

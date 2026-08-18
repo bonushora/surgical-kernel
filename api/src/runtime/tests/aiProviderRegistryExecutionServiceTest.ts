@@ -130,7 +130,7 @@ const service =
     );
 
 const execution =
-    service.create({
+    await service.create({
 
         executionId:
             crypto.randomUUID(),

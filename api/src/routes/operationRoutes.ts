@@ -24,6 +24,10 @@ import {
 } from "../runtime/operation/IdempotencyRegistry.js";
 
 import {
+    getIdempotencyRepository
+} from "../runtime/persistence/PersistenceComposition.js";
+
+import {
     createOperationFingerprint
 } from "../runtime/operation/OperationFingerprint.js";
 
@@ -45,7 +49,9 @@ const executionService =
 
 
 const idempotencyRegistry =
-    new IdempotencyRegistry();
+    new IdempotencyRegistry(
+        getIdempotencyRepository()
+    );
 
 
 const authorizationPolicy =
@@ -143,7 +149,7 @@ router.post(
             });
 
 
-        appendAuthorizationAudit({
+        await appendAuthorizationAudit({
 
             auditId:
                 crypto.randomUUID(),
@@ -247,7 +253,7 @@ router.post(
 
 
                 const idempotency =
-                    idempotencyRegistry.begin(
+                    await idempotencyRegistry.begin(
 
                         [
                             input.context.organizationId,
@@ -359,7 +365,7 @@ router.post(
 
 
             const execution =
-                executionService.create({
+                await executionService.create({
 
                     executionId:
                         crypto.randomUUID(),
@@ -380,7 +386,7 @@ router.post(
 
 
             const started =
-                executionService.start(
+                await executionService.start(
                     execution
                 );
 
@@ -392,7 +398,7 @@ router.post(
 
 
             const completed =
-                executionService.complete(
+                await executionService.complete(
                     executed
                 );
 
@@ -426,7 +432,7 @@ router.post(
 
             if (idempotencyKey) {
 
-                idempotencyRegistry.complete(
+                await idempotencyRegistry.complete(
 
                     [
                         input.context.organizationId,
@@ -473,7 +479,7 @@ router.post(
 
             if (idempotencyKey) {
 
-                idempotencyRegistry.fail(
+                await idempotencyRegistry.fail(
 
                     [
                         input.context.organizationId,

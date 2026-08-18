@@ -60,7 +60,7 @@ try {
 
 
     const first =
-        firstRegistry.begin(
+        await firstRegistry.begin(
             key,
             fingerprint,
             operationId,
@@ -100,7 +100,7 @@ try {
     };
 
 
-    firstRegistry.complete(
+    await firstRegistry.complete(
         key,
         response
     );
@@ -118,7 +118,7 @@ try {
 
 
     const reconstructed =
-        secondRegistry.begin(
+        await secondRegistry.begin(
             key,
             fingerprint,
             "operation-persistence-002",

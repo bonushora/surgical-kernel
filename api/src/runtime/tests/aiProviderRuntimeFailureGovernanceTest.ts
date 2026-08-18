@@ -165,7 +165,7 @@ const service =
 
 
 const execution =
-    service.create(
+    await service.create(
         createRequest()
     );
 
@@ -231,7 +231,7 @@ assert(
 
 
 const events =
-    getEvents(
+    await getEvents(
         execution.executionId
     );
 
@@ -284,7 +284,7 @@ assert(
 
 
 const replay =
-    replayExecution(
+    await replayExecution(
         execution.executionId
     );
 

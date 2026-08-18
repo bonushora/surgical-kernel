@@ -10,9 +10,15 @@ import {
     recoverExecutions
 } from "./runtime/recovery/ExecutionRecovery.js";
 
+import {
+    getExecutionRepository
+} from "./runtime/persistence/PersistenceComposition.js";
+
 
 const recoveredExecutions =
-    recoverExecutions();
+    await recoverExecutions(
+        getExecutionRepository()
+    );
 
 
 console.log(

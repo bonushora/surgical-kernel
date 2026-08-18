@@ -11,22 +11,22 @@ export interface AuthorizationAuditRepository {
 
     append(
         event: AuthorizationAuditEvent
-    ): AuthorizationAuditEvent;
+    ): Promise<AuthorizationAuditEvent>;
 
 
     getByOperationId(
         operationId: string
-    ): AuthorizationAuditEvent[];
+    ): Promise<AuthorizationAuditEvent[]>;
 
 
     query(
         query: AuthorizationAuditQuery
-    ): AuthorizationAuditEvent[];
+    ): Promise<AuthorizationAuditEvent[]>;
 
 
-    getAll(): AuthorizationAuditEvent[];
+    getAll(): Promise<AuthorizationAuditEvent[]>;
 
 
-    clear(): void;
+    clear(): Promise<void>;
 
 }

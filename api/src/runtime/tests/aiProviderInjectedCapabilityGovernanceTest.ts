@@ -203,7 +203,7 @@ const capabilityService =
     );
 
 const capabilityExecution =
-    capabilityService.create(
+    await capabilityService.create(
         createRequest()
     );
 
@@ -253,7 +253,7 @@ const deniedService =
     );
 
 const deniedExecution =
-    deniedService.create(
+    await deniedService.create(
         createRequest()
     );
 

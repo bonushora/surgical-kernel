@@ -30,49 +30,49 @@ export function configureAuthorizationAuditRepository(
 }
 
 
-export function appendAuthorizationAudit(
+export async function appendAuthorizationAudit(
     event: AuthorizationAuditEvent
-): AuthorizationAuditEvent {
+): Promise<AuthorizationAuditEvent> {
 
-    return repository.append(
+    return await repository.append(
         event
     );
 
 }
 
 
-export function getAuthorizationAuditsByOperationId(
+export async function getAuthorizationAuditsByOperationId(
     operationId: string
-): AuthorizationAuditEvent[] {
+): Promise<AuthorizationAuditEvent[]> {
 
-    return repository.getByOperationId(
+    return await repository.getByOperationId(
         operationId
     );
 
 }
 
 
-export function getAllAuthorizationAudits():
-    AuthorizationAuditEvent[] {
+export async function getAllAuthorizationAudits():
+    Promise<AuthorizationAuditEvent[]> {
 
-    return repository.getAll();
+    return await repository.getAll();
 
 }
 
 
-export function queryAuthorizationAudits(
+export async function queryAuthorizationAudits(
     query: AuthorizationAuditQuery
-): AuthorizationAuditEvent[] {
+): Promise<AuthorizationAuditEvent[]> {
 
-    return repository.query(
+    return await repository.query(
         query
     );
 
 }
 
 
-export function clearAuthorizationAudits(): void {
+export async function clearAuthorizationAudits(): Promise<void> {
 
-    repository.clear();
+    await repository.clear();
 
 }

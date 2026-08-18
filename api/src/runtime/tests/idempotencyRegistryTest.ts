@@ -44,7 +44,7 @@ try {
 
 
     const first =
-        registry.begin(
+        await registry.begin(
             "tenant-a:project-a:key-001",
             "fingerprint-a",
             "operation-001",
@@ -64,7 +64,7 @@ try {
 
 
     const duplicatePending =
-        registry.begin(
+        await registry.begin(
             "tenant-a:project-a:key-001",
             "fingerprint-a",
             "operation-002",
@@ -96,7 +96,7 @@ try {
 
 
     const conflict =
-        registry.begin(
+        await registry.begin(
             "tenant-a:project-a:key-001",
             "fingerprint-b",
             "operation-003",
@@ -138,14 +138,14 @@ try {
     };
 
 
-    registry.complete(
+    await registry.complete(
         "tenant-a:project-a:key-001",
         response
     );
 
 
     const duplicateCompleted =
-        registry.begin(
+        await registry.begin(
             "tenant-a:project-a:key-001",
             "fingerprint-a",
             "operation-004",

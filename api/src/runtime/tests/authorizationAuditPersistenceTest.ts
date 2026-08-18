@@ -97,10 +97,10 @@ console.log(
 );
 
 
-repository.clear();
+await repository.clear();
 
 
-repository.append(
+await repository.append(
     event
 );
 
@@ -152,7 +152,7 @@ const reconstructedRepository =
 
 
 const reconstructed =
-    reconstructedRepository
+    await reconstructedRepository
         .getByOperationId(
             event.operationId
         );
@@ -244,11 +244,11 @@ console.log(
 );
 
 
-reconstructedRepository.clear();
+await reconstructedRepository.clear();
 
 
 const remaining =
-    reconstructedRepository.getAll();
+    await reconstructedRepository.getAll();
 
 
 assert(

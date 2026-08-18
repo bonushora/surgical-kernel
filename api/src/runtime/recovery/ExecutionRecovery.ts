@@ -8,18 +8,26 @@ import {
 } from "../replay/EventReplay.js";
 
 import {
-    restoreExecution
-} from "../../store/executionStore.js";
+    getExecutionRepository
+} from "../persistence/PersistenceComposition.js";
 
-import {
+import type {
     Execution
 } from "../../store/executionStore.js";
 
+import type {
+    ExecutionRepository
+} from "../../store/ExecutionRepository.js";
 
-export function recoverExecutions(): number {
+
+export async function recoverExecutions(
+    executionRepository:
+        ExecutionRepository =
+        getExecutionRepository()
+): Promise<number> {
 
     const executionIds =
-        getExecutionIds();
+        await getExecutionIds();
 
     let recovered = 0;
 
@@ -30,7 +38,7 @@ export function recoverExecutions(): number {
     ) {
 
         const events =
-            getEvents(
+            await getEvents(
                 executionId
             );
 
@@ -77,7 +85,7 @@ export function recoverExecutions(): number {
 
 
         const replay =
-            replayExecution(
+            await replayExecution(
                 executionId
             );
 
@@ -125,7 +133,7 @@ export function recoverExecutions(): number {
         };
 
 
-        restoreExecution(
+        await executionRepository.restore(
             execution
         );
 

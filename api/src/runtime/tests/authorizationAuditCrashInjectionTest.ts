@@ -126,7 +126,7 @@ let crashObserved =
 
 try {
 
-    crashingRepository.append(
+    await crashingRepository.append(
         event
     );
 
@@ -195,7 +195,7 @@ const recoveredRepository =
 
 
 const recovered =
-    recoveredRepository
+    await recoveredRepository
         .getByOperationId(
             operationId
         );
@@ -212,7 +212,7 @@ console.log(
 );
 
 
-recoveredRepository.clear();
+await recoveredRepository.clear();
 
 
 const remainingFiles =

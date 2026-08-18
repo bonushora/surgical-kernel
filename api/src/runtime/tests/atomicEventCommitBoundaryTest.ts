@@ -153,13 +153,13 @@ console.log(
 
 try {
 
-    appendEvent(
+    await appendEvent(
         eventOne
     );
 
 
     const eventsAfterFirst =
-        getEvents(
+        await getEvents(
             executionId
         );
 
@@ -182,13 +182,13 @@ try {
     );
 
 
-    appendEvent(
+    await appendEvent(
         eventTwo
     );
 
 
     const eventsAfterSecond =
-        getEvents(
+        await getEvents(
             executionId
         );
 
@@ -245,7 +245,7 @@ try {
 
 
     const executionIds =
-        getExecutionIds();
+        await getExecutionIds();
 
 
     assert(

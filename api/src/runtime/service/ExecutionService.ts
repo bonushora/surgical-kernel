@@ -7,9 +7,12 @@ import {
 } from "../manager/RuntimeStateManager.js";
 
 import {
-    createExecution,
-    updateExecution
-} from "../../store/executionStore.js";
+    getExecutionRepository
+} from "../persistence/PersistenceComposition.js";
+
+import type {
+    ExecutionRepository
+} from "../../store/ExecutionRepository.js";
 
 import {
     toStoreExecution
@@ -99,6 +102,10 @@ export class ExecutionService {
         boolean;
 
 
+    private executionRepository:
+        ExecutionRepository;
+
+
     constructor(
         provider?: AIProvider,
 
@@ -106,7 +113,11 @@ export class ExecutionService {
 
         registry?: AIProviderRegistry,
 
-        resolver?: AIProviderResolver
+        resolver?: AIProviderResolver,
+
+        executionRepository:
+            ExecutionRepository =
+            getExecutionRepository()
     ){
 
         this.providerInjected =
@@ -162,12 +173,16 @@ export class ExecutionService {
                 this.registry
             );
 
+
+        this.executionRepository =
+            executionRepository;
+
     }
 
 
-    create(
+    async create(
         input: CreateExecutionRequest
-    ): ExecutionState {
+    ): Promise<ExecutionState> {
 
         const execution =
             this.engine.createExecution(
@@ -176,7 +191,7 @@ export class ExecutionService {
 
 
         const stored =
-            createExecution(
+            await this.executionRepository.create(
                 toStoreExecution(
                     execution
                 )
@@ -219,7 +234,7 @@ export class ExecutionService {
         };
 
 
-        appendEvent(
+        await appendEvent(
             event
         );
 
@@ -316,7 +331,7 @@ export class ExecutionService {
             };
 
 
-            updateExecution(
+            await this.executionRepository.update(
                 execution.executionId,
                 {
 
@@ -372,7 +387,7 @@ export class ExecutionService {
         };
 
 
-        appendEvent(
+        await appendEvent(
             failedEvent
         );
 
@@ -447,7 +462,7 @@ export class ExecutionService {
             };
 
 
-            updateExecution(
+            await this.executionRepository.update(
                 execution.executionId,
                 {
 
@@ -503,7 +518,7 @@ export class ExecutionService {
             };
 
 
-            appendEvent(
+            await appendEvent(
                 failedEvent
             );
 
@@ -578,7 +593,7 @@ export class ExecutionService {
             };
 
 
-            updateExecution(
+            await this.executionRepository.update(
                 execution.executionId,
                 {
 
@@ -634,7 +649,7 @@ export class ExecutionService {
             };
 
 
-            appendEvent(
+            await appendEvent(
                 failedEvent
             );
 
@@ -656,7 +671,7 @@ export class ExecutionService {
         };
 
 
-        updateExecution(
+        await this.executionRepository.update(
             execution.executionId,
             {
 
@@ -674,9 +689,9 @@ export class ExecutionService {
     }
 
 
-    start(
+    async start(
         execution: ExecutionState
-    ): ExecutionState {
+    ): Promise<ExecutionState> {
 
         const updated =
             this.stateManager.transition(
@@ -685,7 +700,7 @@ export class ExecutionService {
             );
 
 
-        updateExecution(
+        await this.executionRepository.update(
             execution.executionId,
             {
 
@@ -735,7 +750,7 @@ export class ExecutionService {
         };
 
 
-        appendEvent(
+        await appendEvent(
             event
         );
 
@@ -745,9 +760,9 @@ export class ExecutionService {
     }
 
 
-    complete(
+    async complete(
         execution: ExecutionState
-    ): ExecutionState {
+    ): Promise<ExecutionState> {
 
         const updated =
             this.stateManager.transition(
@@ -756,7 +771,7 @@ export class ExecutionService {
             );
 
 
-        updateExecution(
+        await this.executionRepository.update(
             execution.executionId,
             {
 
@@ -809,7 +824,7 @@ export class ExecutionService {
         };
 
 
-        appendEvent(
+        await appendEvent(
             event
         );
 

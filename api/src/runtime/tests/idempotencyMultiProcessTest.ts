@@ -76,7 +76,7 @@ const registry =
     );
 
 const result =
-    registry.begin(
+    await registry.begin(
         process.argv[3],
         process.argv[4],
         process.argv[5],

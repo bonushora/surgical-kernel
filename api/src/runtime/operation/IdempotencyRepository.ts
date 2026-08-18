@@ -7,19 +7,19 @@ export interface IdempotencyRepository {
 
     get(
         key: string
-    ): IdempotencyRecord | undefined;
+    ): Promise<IdempotencyRecord | undefined>;
 
 
     createIfAbsent(
         record: IdempotencyRecord
-    ): boolean;
+    ): Promise<boolean>;
 
 
     save(
         record: IdempotencyRecord
-    ): void;
+    ): Promise<void>;
 
 
-    clear(): void;
+    clear(): Promise<void>;
 
 }

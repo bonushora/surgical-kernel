@@ -299,7 +299,7 @@ const port =
 
 try {
 
-    clearAuthorizationAudits();
+    await clearAuthorizationAudits();
 
 
     const allowed =
@@ -395,15 +395,15 @@ try {
         });
 
 
-    appendAuthorizationAudit(
+    await appendAuthorizationAudit(
         allowed
     );
 
-    appendAuthorizationAudit(
+    await appendAuthorizationAudit(
         denied
     );
 
-    appendAuthorizationAudit(
+    await appendAuthorizationAudit(
         sameOperation
     );
 
@@ -791,7 +791,7 @@ try {
 
 
     const before =
-        getAllAuthorizationAudits()
+        (await getAllAuthorizationAudits())
             .map(
                 event =>
                     event.auditId
@@ -805,7 +805,7 @@ try {
 
 
     const after =
-        getAllAuthorizationAudits()
+        (await getAllAuthorizationAudits())
             .map(
                 event =>
                     event.auditId
@@ -899,7 +899,7 @@ try {
 
 } finally {
 
-    clearAuthorizationAudits();
+    await clearAuthorizationAudits();
 
     await new Promise<void>(
         resolve =>

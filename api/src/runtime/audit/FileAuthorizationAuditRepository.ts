@@ -88,9 +88,9 @@ implements AuthorizationAuditRepository {
     }
 
 
-    append(
+    async append(
         event: AuthorizationAuditEvent
-    ): AuthorizationAuditEvent {
+    ): Promise<AuthorizationAuditEvent> {
 
         const file =
             join(
@@ -154,22 +154,22 @@ implements AuthorizationAuditRepository {
     }
 
 
-    getByOperationId(
+    async getByOperationId(
         operationId: string
-    ): AuthorizationAuditEvent[] {
+    ): Promise<AuthorizationAuditEvent[]> {
 
-        return this.query({
+        return await this.query({
             operationId
         });
 
     }
 
 
-    query(
+    async query(
         query: AuthorizationAuditQuery
-    ): AuthorizationAuditEvent[] {
+    ): Promise<AuthorizationAuditEvent[]> {
 
-        return this.getAll()
+        return (await this.getAll())
             .filter(
                 event =>
                     matchesAuthorizationAuditQuery(
@@ -181,7 +181,7 @@ implements AuthorizationAuditRepository {
     }
 
 
-    getAll(): AuthorizationAuditEvent[] {
+    async getAll(): Promise<AuthorizationAuditEvent[]> {
 
         if (
             !existsSync(
@@ -233,7 +233,7 @@ implements AuthorizationAuditRepository {
     }
 
 
-    clear(): void {
+    async clear(): Promise<void> {
 
         if (
             !existsSync(

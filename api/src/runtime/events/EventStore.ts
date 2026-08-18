@@ -31,11 +31,11 @@ export function configureEventRepository(
 
 
 
-export function appendEvent(
+export async function appendEvent(
     event: ExecutionEvent
-): ExecutionEvent {
+): Promise<ExecutionEvent> {
 
-    return repository.append(
+    return await repository.append(
         event
     );
 
@@ -43,11 +43,11 @@ export function appendEvent(
 
 
 
-export function getEvents(
+export async function getEvents(
     executionId: string
-): ExecutionEvent[] {
+): Promise<ExecutionEvent[]> {
 
-    return repository.getEvents(
+    return await repository.getEvents(
         executionId
     );
 
@@ -55,8 +55,8 @@ export function getEvents(
 
 
 
-export function getExecutionIds(): string[] {
+export async function getExecutionIds(): Promise<string[]> {
 
-    return repository.getExecutionIds();
+    return await repository.getExecutionIds();
 
 }

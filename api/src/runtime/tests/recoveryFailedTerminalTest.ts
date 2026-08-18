@@ -119,7 +119,7 @@ const service =
 
 
 const execution =
-    service.create({
+    await service.create({
 
         executionId:
             crypto.randomUUID(),
@@ -167,7 +167,7 @@ assert(
 
 
 const eventsBeforeRecovery =
-    getEvents(
+    await getEvents(
         execution.executionId
     );
 
@@ -198,7 +198,7 @@ console.log(
 
 
 const recovered =
-    recoverExecutions();
+    await recoverExecutions();
 
 
 console.log(
@@ -208,7 +208,7 @@ console.log(
 
 
 const eventsAfterRecovery =
-    getEvents(
+    await getEvents(
         execution.executionId
     );
 

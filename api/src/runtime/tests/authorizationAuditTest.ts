@@ -43,7 +43,7 @@ const correlationId =
 
 
 const allowed =
-    appendAuthorizationAudit({
+    await appendAuthorizationAudit({
 
         auditId:
             crypto.randomUUID(),
@@ -93,7 +93,7 @@ assert(
 
 
 const denied =
-    appendAuthorizationAudit({
+    await appendAuthorizationAudit({
 
         auditId:
             crypto.randomUUID(),
@@ -142,7 +142,7 @@ assert(
 
 
 const operationAudits =
-    getAuthorizationAuditsByOperationId(
+    await getAuthorizationAuditsByOperationId(
         operationId
     );
 

@@ -136,7 +136,7 @@ try {
 
 
     const stored =
-        registryA.get(
+        await registryA.get(
             key
         );
 

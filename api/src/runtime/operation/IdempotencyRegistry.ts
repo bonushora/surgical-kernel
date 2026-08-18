@@ -82,12 +82,12 @@ export class IdempotencyRegistry {
     }
 
 
-    begin(
+    async begin(
         key: string,
         fingerprint: string,
         operationId: string,
         correlationId: string
-    ): IdempotencyBeginResult {
+    ): Promise<IdempotencyBeginResult> {
 
         const record: IdempotencyRecord = {
 
@@ -108,7 +108,7 @@ export class IdempotencyRegistry {
         try {
 
             const created =
-                this.repository.createIfAbsent(
+                await this.repository.createIfAbsent(
                     record
                 );
 
@@ -146,7 +146,7 @@ export class IdempotencyRegistry {
 
 
         const existing =
-            this.repository.get(
+            await this.repository.get(
                 key
             );
 
@@ -191,13 +191,13 @@ export class IdempotencyRegistry {
     }
 
 
-    complete(
+    async complete(
         key: string,
         response: OperationResponse
-    ): void {
+    ): Promise<void> {
 
         const record =
-            this.repository.get(
+            await this.repository.get(
                 key
             );
 
@@ -211,7 +211,7 @@ export class IdempotencyRegistry {
         }
 
 
-        this.repository.save({
+        await this.repository.save({
 
             ...record,
 
@@ -233,13 +233,13 @@ export class IdempotencyRegistry {
     }
 
 
-    fail(
+    async fail(
         key: string,
         response: OperationErrorResponse
-    ): void {
+    ): Promise<void> {
 
         const record =
-            this.repository.get(
+            await this.repository.get(
                 key
             );
 
@@ -251,7 +251,7 @@ export class IdempotencyRegistry {
         }
 
 
-        this.repository.save({
+        await this.repository.save({
 
             ...record,
 
@@ -273,20 +273,20 @@ export class IdempotencyRegistry {
     }
 
 
-    get(
+    async get(
         key: string
-    ): IdempotencyRecord | undefined {
+    ): Promise<IdempotencyRecord | undefined> {
 
-        return this.repository.get(
+        return await this.repository.get(
             key
         );
 
     }
 
 
-    clear(): void {
+    async clear(): Promise<void> {
 
-        this.repository.clear();
+        await this.repository.clear();
 
     }
 

@@ -99,9 +99,9 @@ implements IdempotencyRepository {
     }
 
 
-    get(
+    async get(
         key: string
-    ): IdempotencyRecord | undefined {
+    ): Promise<IdempotencyRecord | undefined> {
 
         const file =
             this.fileFor(
@@ -128,9 +128,9 @@ implements IdempotencyRepository {
     }
 
 
-    createIfAbsent(
+    async createIfAbsent(
         record: IdempotencyRecord
-    ): boolean {
+    ): Promise<boolean> {
 
         const file =
             this.fileFor(
@@ -163,9 +163,9 @@ implements IdempotencyRepository {
     }
 
 
-    save(
+    async save(
         record: IdempotencyRecord
-    ): void {
+    ): Promise<void> {
 
         const file =
             this.fileFor(
@@ -185,7 +185,7 @@ implements IdempotencyRepository {
     }
 
 
-    clear(): void {
+    async clear(): Promise<void> {
 
         const entries =
             readdirSync(

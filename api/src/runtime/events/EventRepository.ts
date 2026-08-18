@@ -8,20 +8,20 @@ export interface EventRepository {
 
     append(
         event: ExecutionEvent
-    ): ExecutionEvent;
+    ): Promise<ExecutionEvent>;
 
 
 
     getEvents(
         executionId:string
-    ): ExecutionEvent[];
+    ): Promise<ExecutionEvent[]>;
 
 
 
-    getExecutionIds(): string[];
+    getExecutionIds(): Promise<string[]>;
 
 
 
-    clear():void;
+    clear(): Promise<void>;
 
 }

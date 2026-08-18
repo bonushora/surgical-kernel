@@ -108,7 +108,7 @@ const service =
 
 
 const execution =
-    service.create({
+    await service.create({
 
         executionId:
             crypto.randomUUID(),
@@ -152,7 +152,7 @@ console.log(
 
 
 const running =
-    service.start(
+    await service.start(
         execution
     );
 
@@ -231,7 +231,7 @@ if (
 
 
 const completed =
-    service.complete(
+    await service.complete(
         executed
     );
 
@@ -259,7 +259,7 @@ if (
 
 
 const events =
-    getEvents(
+    await getEvents(
         execution.executionId
     );
 
@@ -306,7 +306,7 @@ if (
 
 
 const replay =
-    replayExecution(
+    await replayExecution(
         execution.executionId
     );
 
