@@ -2,6 +2,10 @@ import {
     ExecutionService
 } from "../../service/ExecutionService.js";
 
+import {
+    createDefaultAIProviderRuntime
+} from "../../providers/AIProviderRuntimeComposition.js";
+
 
 import {
     replayExecution
@@ -10,7 +14,9 @@ import {
 
 
 const service =
-    new ExecutionService();
+    new ExecutionService(
+        createDefaultAIProviderRuntime()
+    );
 
 
 

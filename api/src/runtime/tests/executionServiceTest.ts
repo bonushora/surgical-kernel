@@ -2,9 +2,15 @@ import {
     ExecutionService
 } from "../service/ExecutionService.js";
 
+import {
+    createDefaultAIProviderRuntime
+} from "../providers/AIProviderRuntimeComposition.js";
+
 
 const service =
-    new ExecutionService();
+    new ExecutionService(
+        createDefaultAIProviderRuntime()
+    );
 
 
 

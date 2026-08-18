@@ -3,6 +3,10 @@ import {
 } from "../service/ExecutionService.js";
 
 import {
+    createAIProviderRuntime
+} from "../providers/AIProviderRuntimeComposition.js";
+
+import {
     getEvents
 } from "../events/EventStore.js";
 
@@ -159,8 +163,21 @@ const provider =
 
 const service =
     new ExecutionService(
-        provider,
-        new AllowPolicy()
+        createAIProviderRuntime({
+
+            providers: [
+                {
+                    provider: provider.provider,
+                    model: provider.model,
+                    capabilities: [],
+                    implementation: provider
+                }
+            ],
+
+            providerPolicy:
+                new AllowPolicy()
+
+        })
     );
 
 

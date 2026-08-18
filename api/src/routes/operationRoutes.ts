@@ -7,6 +7,10 @@ import {
 } from "../runtime/service/ExecutionService.js";
 
 import {
+    createDefaultAIProviderRuntime
+} from "../runtime/providers/AIProviderRuntimeComposition.js";
+
+import {
     OPERATION_HEADERS
 } from "../runtime/operation/OperationHeaders.js";
 
@@ -45,7 +49,9 @@ const router =
 
 
 const executionService =
-    new ExecutionService();
+    new ExecutionService(
+        createDefaultAIProviderRuntime()
+    );
 
 
 const idempotencyRegistry =

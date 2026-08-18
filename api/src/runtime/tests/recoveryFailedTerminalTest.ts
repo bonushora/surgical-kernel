@@ -3,6 +3,10 @@ import {
 } from "../service/ExecutionService.js";
 
 import {
+    createAIProviderRuntime
+} from "../providers/AIProviderRuntimeComposition.js";
+
+import {
     recoverExecutions
 } from "../recovery/ExecutionRecovery.js";
 
@@ -111,10 +115,26 @@ console.log(
 );
 
 
+const provider =
+    new TestProvider();
+
 const service =
     new ExecutionService(
-        new TestProvider(),
-        new DenyPolicy()
+        createAIProviderRuntime({
+
+            providers: [
+                {
+                    provider: provider.provider,
+                    model: provider.model,
+                    capabilities: [],
+                    implementation: provider
+                }
+            ],
+
+            providerPolicy:
+                new DenyPolicy()
+
+        })
     );
 
 

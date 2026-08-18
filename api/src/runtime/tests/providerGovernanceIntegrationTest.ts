@@ -3,6 +3,10 @@ import {
 } from "../service/ExecutionService.js";
 
 import {
+    createAIProviderRuntime
+} from "../providers/AIProviderRuntimeComposition.js";
+
+import {
 getEvents
 } from "../events/EventStore.js";
 
@@ -131,6 +135,28 @@ function assert(
 
 }
 
+function createRuntime(
+    provider: CountingProvider,
+    providerPolicy: ProviderPolicy
+) {
+
+    return createAIProviderRuntime({
+
+        providers: [
+            {
+                provider: provider.provider,
+                model: provider.model,
+                capabilities: [],
+                implementation: provider
+            }
+        ],
+
+        providerPolicy
+
+    });
+
+}
+
 function createRequest(
     mode:
         "free"
@@ -194,8 +220,10 @@ const deniedProvider =
 
 const deniedService =
     new ExecutionService(
-        deniedProvider,
-        new DenyPolicy()
+        createRuntime(
+            deniedProvider,
+            new DenyPolicy()
+        )
     );
 
 const deniedExecution =
@@ -335,8 +363,10 @@ const allowedProvider =
 
 const allowedService =
     new ExecutionService(
-        allowedProvider,
-        new AllowPolicy()
+        createRuntime(
+            allowedProvider,
+            new AllowPolicy()
+        )
     );
 
 const allowedExecution =
@@ -386,8 +416,10 @@ const freeProvider =
 
 const freeService =
     new ExecutionService(
-        freeProvider,
-        new AllowPolicy()
+        createRuntime(
+            freeProvider,
+            new AllowPolicy()
+        )
     );
 
 const freeExecution =

@@ -38,22 +38,9 @@ import {
     AIProvider
 } from "../providers/AIProvider.js";
 
-import {
-    MockProvider
-} from "../providers/MockProvider.js";
-
-import {
-    DeterministicProviderPolicy,
-    ProviderPolicy
-} from "../providers/ProviderPolicy.js";
-
-import {
-    AIProviderRegistry
-} from "../providers/AIProviderRegistry.js";
-
-import {
-    AIProviderResolver
-} from "../providers/AIProviderResolver.js";
+import type {
+    AIProviderRuntime
+} from "../providers/AIProviderRuntimeComposition.js";
 
 export interface CreateExecutionRequest {
 
@@ -82,24 +69,12 @@ export class ExecutionService {
         new RuntimeStateManager();
 
 
-    private provider:
-        AIProvider;
-
-
     private providerPolicy:
-        ProviderPolicy;
-
-
-    private registry:
-        AIProviderRegistry;
+        AIProviderRuntime["providerPolicy"];
 
 
     private resolver:
-        AIProviderResolver;
-
-
-    private providerInjected:
-        boolean;
+        AIProviderRuntime["resolver"];
 
 
     private executionRepository:
@@ -107,71 +82,19 @@ export class ExecutionService {
 
 
     constructor(
-        provider?: AIProvider,
-
-        providerPolicy?: ProviderPolicy,
-
-        registry?: AIProviderRegistry,
-
-        resolver?: AIProviderResolver,
+        providerRuntime: AIProviderRuntime,
 
         executionRepository:
             ExecutionRepository =
             getExecutionRepository()
     ){
 
-        this.providerInjected =
-            provider !== undefined;
-
-
-        this.provider =
-            provider ??
-            new MockProvider();
-
-
         this.providerPolicy =
-            providerPolicy ??
-            new DeterministicProviderPolicy();
-
-
-        this.registry =
-            registry ??
-            new AIProviderRegistry();
-
-
-        if (
-            !this.registry.has(
-                this.provider.provider,
-                this.provider.model
-            )
-        ) {
-
-            this.registry.register({
-
-                provider:
-                    this.provider.provider,
-
-                model:
-                    this.provider.model,
-
-                capabilities:
-                    this.providerInjected
-                        ? []
-                        : ["text-generation"],
-
-                implementation:
-                    this.provider
-
-            });
-
-        }
+            providerRuntime.providerPolicy;
 
 
         this.resolver =
-            resolver ??
-            new AIProviderResolver(
-                this.registry
-            );
+            providerRuntime.resolver;
 
 
         this.executionRepository =

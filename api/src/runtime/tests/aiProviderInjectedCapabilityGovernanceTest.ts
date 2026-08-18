@@ -2,6 +2,10 @@ import {
     ExecutionService
 } from "../service/ExecutionService.js";
 
+import {
+    createAIProviderRuntime
+} from "../providers/AIProviderRuntimeComposition.js";
+
 import type {
     AIProvider,
     AIProviderRequest,
@@ -198,8 +202,21 @@ const capabilityProvider =
 
 const capabilityService =
     new ExecutionService(
-        capabilityProvider,
-        new CapabilityAllowPolicy()
+        createAIProviderRuntime({
+
+            providers: [
+                {
+                    provider: capabilityProvider.provider,
+                    model: capabilityProvider.model,
+                    capabilities: [],
+                    implementation: capabilityProvider
+                }
+            ],
+
+            providerPolicy:
+                new CapabilityAllowPolicy()
+
+        })
     );
 
 const capabilityExecution =
@@ -248,8 +265,21 @@ const deniedProvider =
 
 const deniedService =
     new ExecutionService(
-        deniedProvider,
-        new DenyPolicy()
+        createAIProviderRuntime({
+
+            providers: [
+                {
+                    provider: deniedProvider.provider,
+                    model: deniedProvider.model,
+                    capabilities: [],
+                    implementation: deniedProvider
+                }
+            ],
+
+            providerPolicy:
+                new DenyPolicy()
+
+        })
     );
 
 const deniedExecution =

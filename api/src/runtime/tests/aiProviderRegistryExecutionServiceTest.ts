@@ -123,10 +123,11 @@ const policy:
 
 const service =
     new ExecutionService(
-        undefined,
-        policy,
-        registry,
-        resolver
+        {
+            providerPolicy: policy,
+            registry,
+            resolver
+        }
     );
 
 const execution =
